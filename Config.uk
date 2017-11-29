@@ -1,0 +1,11 @@
+# hidden
+config LIBNEWLIBM
+	bool
+	default n
+
+menuconfig LIBNEWLIBC
+	bool "libnewlib - A C standard library"
+	default n
+	select HAVE_LIBC
+	select LIBNEWLIBM if LIBNEWLIBC
+	select LIBUCALLOC
