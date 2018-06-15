@@ -38,7 +38,7 @@
 #include <sys/time.h>
 #include <utime.h>
 #include <uk/config.h>
-#if HAVE_SCHED
+#if CONFIG_HAVE_SCHED
 #include <uk/sched.h>
 #else
 #include <uk/plat/lcpu.h>
@@ -58,7 +58,7 @@ int utime(const char *filename __unused, const struct utimbuf *times __unused)
 /* currently only have millisecond resolution on timers */
 static void msleep(uint32_t milliseconds)
 {
-#if HAVE_SCHED
+#if CONFIG_HAVE_SCHED
 	uk_sched_sleep(milliseconds);
 #else
 	ukplat_lcpu_halt_to(milliseconds);

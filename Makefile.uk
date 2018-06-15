@@ -39,12 +39,12 @@
 # We have two libraries with newlib: libc and libm
 # We are going to register both but fetch the sources of both into libc's
 # build dir.
-$(eval $(call addlib_s,libnewlibc,$(LIBNEWLIBC)))
-$(eval $(call addlib_s,libnewlibm,$(LIBNEWLIBM)))
+$(eval $(call addlib_s,libnewlibc,$(CONFIG_LIBNEWLIBC)))
+$(eval $(call addlib_s,libnewlibm,$(CONFIG_LIBNEWLIBM)))
 # Additionally, build glue code. This is put into a separate library so that we
 # can apply a thick helping of warning suppressions to newlib, which throws
 # lots of compilation warnings, but keep our glue code up to our standards.
-$(eval $(call addlib_s,libnewlibglue,$(LIBNEWLIBC)))
+$(eval $(call addlib_s,libnewlibglue,$(CONFIG_LIBNEWLIBC)))
 
 ################################################################################
 # Sources
@@ -65,10 +65,10 @@ LIBNEWLIB_LIBM = $(LIBNEWLIBC_ORIGIN)/$(LIBNEWLIB_SUBDIR)/newlib/libm
 ################################################################################
 # Library includes
 ################################################################################
-CINCLUDES-$(LIBNEWLIBC)   += -I$(LIBNEWLIBC_BASE)/include
-CINCLUDES-$(LIBNEWLIBC)   += -I$(LIBNEWLIB_LIBC)/include
-CXXINCLUDES-$(LIBNEWLIBC) += -I$(LIBNEWLIBC_BASE)/include
-CXXINCLUDES-$(LIBNEWLIBC) += -I$(LIBNEWLIB_LIBC)/include
+CINCLUDES-$(CONFIG_LIBNEWLIBC)   += -I$(LIBNEWLIBC_BASE)/include
+CINCLUDES-$(CONFIG_LIBNEWLIBC)   += -I$(LIBNEWLIB_LIBC)/include
+CXXINCLUDES-$(CONFIG_LIBNEWLIBC) += -I$(LIBNEWLIBC_BASE)/include
+CXXINCLUDES-$(CONFIG_LIBNEWLIBC) += -I$(LIBNEWLIB_LIBC)/include
 
 CINCLUDES-$(LIBNEWLIBGLUE) += -I$(LIBNEWLIBC_BASE)/include
 CINCLUDES-$(LIBNEWLIBGLUE) += -I$(LIBNEWLIB_LIBC)/include
