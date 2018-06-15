@@ -50,11 +50,6 @@ int open(const char *name __unused, int flags __unused, int mode __unused)
 	return -1;
 }
 
-int close(int file __unused)
-{
-	return -1;
-}
-
 int fstat(int file __unused, struct stat *st)
 {
 	st->st_mode = S_IFCHR;
@@ -81,41 +76,6 @@ int unlink(char *name __unused)
 {
 	errno = ENOENT;
 	return -1;
-}
-
-int read(int file, char *ptr, int len)
-{
-	int read;
-
-	switch (file) {
-	case STDIN_FILENO:
-		while ((read = ukplat_cink(ptr, len)) == 0)
-			continue; /* busy wait */
-		return read;
-	case STDOUT_FILENO:
-	case STDERR_FILENO:
-		errno = EBADF;
-		return -1;
-	default:
-		errno = EBADF;
-		return -1;
-	}
-}
-
-int write(int file, char *ptr, int len)
-{
-	switch (file) {
-	case STDIN_FILENO:
-		errno = EBADF;
-		return -1;
-	case STDOUT_FILENO:
-		return ukplat_coutk(ptr, len);
-	case STDERR_FILENO:
-		return ukplat_coutd(ptr, len);
-	default:
-		errno = EBADF;
-		return -1;
-	}
 }
 
 int lseek(int file __unused, int ptr __unused, int dir __unused)
