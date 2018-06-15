@@ -42,6 +42,7 @@
 #include <uk/sched.h>
 #else
 #include <uk/plat/lcpu.h>
+#include <uk/plat/time.h>
 #endif
 
 int
@@ -55,23 +56,31 @@ int utime(const char *filename __unused, const struct utimbuf *times __unused)
 	return 0;
 }
 
-/* currently only have millisecond resolution on timers */
-static void msleep(uint32_t milliseconds)
-{
-#if CONFIG_HAVE_SCHED
-	uk_sched_sleep(milliseconds);
-#else
-	ukplat_lcpu_halt_to(milliseconds);
-#endif
-}
-
-/* TODO: nanosleep() does not properly set rem, or return the right value if
- * the sleep got interrupted.
- * However, we can only fix this once we have a better timer implementation.
+#ifndef CONFIG_HAVE_SCHED
+/* Workaround until Unikraft changes interface for something more
+ * sensible
  */
+static void __spin_wait(__nsec nsec)
+{
+	__nsec until = ukplat_monotonic_clock() + nsec;
+
+	while (until > ukplat_monotonic_clock())
+		ukplat_lcpu_halt_to(until);
+}
+#endif
+
 int nanosleep(const struct timespec *req, struct timespec *rem)
 {
-	msleep((req->tv_sec * 1000) + (req->tv_nsec / 1000000));
+	__nsec nsec = (__nsec) req->tv_sec * 1000000000L;
+
+	nsec += req->tv_nsec;
+
+#if CONFIG_HAVE_SCHED
+	uk_sched_thread_sleep(nsec);
+#else
+	__spin_wait(nsec);
+#endif
+
 	if (rem) {
 		rem->tv_sec = 0;
 		rem->tv_nsec = 0;
