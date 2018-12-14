@@ -35,6 +35,7 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
+#include <errno.h>
 #include <sys/time.h>
 #include <utime.h>
 #include <uk/plat/time.h>
