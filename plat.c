@@ -55,6 +55,12 @@ int sigprocmask(int how __unused, const sigset_t *set __unused,
 	return -1;
 }
 
+int sigfillset(sigset_t *set __unused)
+{
+	errno = ENOTSUP;
+	return -1;
+}
+
 #include <uk/plat/bootstrap.h>
 
 void abort(void)

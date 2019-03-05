@@ -1,11 +1,9 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 /*
- * libnewlib glue code
+ * Copyright (C) 2013 Cloudius Systems, Ltd.
+ * Copyright (c) 2019, NEC Europe Ltd., NEC Corporation.
  *
- * Authors: Felipe Huici <felipe.huici@neclab.eu>
- *          Florian Schmidt <florian.schmidt@neclab.eu>
- *
- * Copyright (c) 2017, NEC Europe Ltd., NEC Corporation. All rights reserved.
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -35,85 +33,30 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
-#include <uk/plat/console.h>
-#include <sys/stat.h>
-#include <errno.h>
-#undef errno
-extern int errno;
+#ifndef _SYS_UIO_H
+#define _SYS_UIO_H
 
-#define STDIN_FILENO    0       /* standard input file descriptor */
-#define STDOUT_FILENO   1       /* standard output file descriptor */
-#define STDERR_FILENO   2       /* standard error file descriptor */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-int link(char *old __unused, char *new __unused)
-{
-	errno = EMLINK;
-	return -1;
+#define UIO_MAXIOV 1024
+
+ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
+ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
+
+#if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
+ssize_t preadv(int fd, const struct iovec *iov, int iovcnt, off_t offset);
+ssize_t pwritev(int fd, const struct iovec *iov, int iovcnt, off_t offset);
+#if defined(_LARGEFILE64_SOURCE) || defined(_GNU_SOURCE)
+#define preadv64 preadv
+#define pwritev64 pwritev
+#define off64_t off_t
+#endif
+#endif
+
+#ifdef __cplusplus
 }
+#endif
 
-int lseek(int file __unused, int ptr __unused, int dir __unused)
-{
-	return 0;
-}
-
-int access(const char *path __unused, int amode __unused)
-{
-	return 0;
-}
-
-int chdir(const char *path __unused)
-{
-	return 0;
-}
-
-#include <dirent.h>
-int closedir(DIR *dirp __unused)
-{
-	return 0;
-}
-
-void rewinddir(DIR *dirp __unused)
-{
-}
-
-struct dirent *readdir(DIR *dirp __unused)
-{
-	return NULL;
-}
-
-DIR *opendir(const char *dirname __unused)
-{
-	return NULL;
-}
-
-DIR *fdopendir(int fd __unused)
-{
-	return NULL;
-}
-
-int rmdir(const char *path __unused)
-{
-	return 0;
-}
-
-mode_t umask(mode_t cmask __unused)
-{
-	return 0;
-}
-
-long pathconf(const char *path __unused, int name __unused)
-{
-	return 0;
-}
-
-#include <sys/mman.h>
-void *mmap(void *addr __unused, size_t len __unused, int prot __unused,
-		int flags __unused, int fildes __unused, off_t off __unused)
-{
-	return 0;
-}
-
-int munmap(void *addr __unused, size_t len __unused)
-{
-	return 0;
-}
+#endif
