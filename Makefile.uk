@@ -797,6 +797,13 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/tzvars.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/wcsftime.c
 
 ################################################################################
+# Newlib/libc code -- setjmp, longjmp
+################################################################################
+LIBNEWLIBC_SRCS-$(CONFIG_ARCH_X86_64) += $(LIBNEWLIB_LIBC)/machine/x86_64/setjmp.S
+LIBNEWLIBC_SRCS-$(CONFIG_ARCH_ARM_32) += $(LIBNEWLIB_LIBC)/machine/arm/setjmp.S
+LIBNEWLIBC_SRCS-$(CONFIG_ARCH_ARM_64) += $(LIBNEWLIB_LIBC)/machine/aarch64/setjmp.S
+
+################################################################################
 # Newlib/libm code -- math
 ################################################################################
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/math/e_acos.c
