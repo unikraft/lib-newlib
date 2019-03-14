@@ -41,6 +41,20 @@
  * such as nanosleep
  */
 #define _POSIX_TIMERS 1
+
+/* define __rtems__ only if not previously defined */
+#ifndef __rtems__
+/* A definition only for this header */
+#define __undef_rtems__NEWLIBGLUE_TIME_H
+#define __rtems__
+#endif
+
 #include_next <time.h>
+
+/* cleanup __rtems__ */
+#ifdef __undef_rtems__NEWLIBGLUE_TIME_H
+#undef __rtems__
+#undef __undef_rtems__NEWLIBGLUE_TIME_H
+#endif
 
 #endif /* NEWLIBGLUE_TIME_H */
