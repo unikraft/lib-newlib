@@ -108,6 +108,7 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/process.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/resource.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/pty.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/time.c|glue
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/locale.c
 
 ################################################################################
 # Newlib/libc code -- argz

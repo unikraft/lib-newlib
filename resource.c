@@ -47,3 +47,7 @@ int setrlimit(int resource __unused, const struct rlimit *rlim __unused)
 	return 0;
 }
 
+long sysconf(int name __unused)
+{
+	return 0;
+}

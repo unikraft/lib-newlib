@@ -30,6 +30,8 @@
 extern "C" {
 #endif
 
+#include <stddef.h>
+
 #define __NEED_mode_t
 #define __NEED_size_t
 #define __NEED_off_t

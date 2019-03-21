@@ -102,3 +102,8 @@ int nanosleep(const struct timespec *req, struct timespec *rem)
 	}
 	return 0;
 }
+
+int clock_gettime(clockid_t clk_id __unused, struct timespec *tp __unused)
+{
+	return 0;
+}
