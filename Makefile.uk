@@ -312,12 +312,17 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/posix/regfree.c
 ################################################################################
 # Newlib/libc code -- reent
 ################################################################################
+ifeq ($(CONFIG_HAVE_SCHED),y)
+# if scheduling enabled, then Unikraft provides __getreent()
+LIBNEWLIBC_CFLAGS-y += -D__DYNAMIC_REENT__
+else
+LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/getreent.c
+endif
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/closer.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/reent.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/impure.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/fcntlr.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/fstatr.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/getreent.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/gettimeofdayr.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/isattyr.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/linkr.c

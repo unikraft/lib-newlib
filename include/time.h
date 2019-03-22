@@ -47,7 +47,17 @@
 /* A definition only for this header */
 #define __undef_rtems__NEWLIBGLUE_TIME_H
 #define __rtems__
-#endif
+
+/*
+ * __DYNAMIC_REENT__ is defined in sys/config.h if
+ * __rtems__ is defined; we undefine it in order to
+ * avoid warnings.
+ */
+#ifdef __DYNAMIC_REENT__
+#define __define_DYNAMIC_REENT__NEWLIBGLUE_TIME_H
+#undef __DYNAMIC_REENT__
+#endif /* __DYNAMIC_REENT__ */
+#endif /* __rtems__ */
 
 #include_next <time.h>
 
@@ -55,6 +65,11 @@
 #ifdef __undef_rtems__NEWLIBGLUE_TIME_H
 #undef __rtems__
 #undef __undef_rtems__NEWLIBGLUE_TIME_H
+#endif
+
+#ifdef __define_DYNAMIC_REENT__NEWLIBGLUE_TIME_H
+#define __DYNAMIC_REENT__
+#undef __define_DYNAMIC_REENT__NEWLIBGLUE_TIME_H
 #endif
 
 #endif /* NEWLIBGLUE_TIME_H */
