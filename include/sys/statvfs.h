@@ -31,10 +31,18 @@
 extern "C" {
 #endif
 
-#define __NEED_fsblkcnt_t
-#define __NEED_fsfilcnt_t
-#include <sys/types.h>
 #include <endian.h>
+#include <sys/_types.h>
+
+#ifndef _FSBLKCNT_T_DECLARED
+typedef __fsblkcnt_t fsblkcnt_t;
+#define _FSBLKCNT_T_DECLARED
+#endif
+
+#ifndef _FSFILCNT_T_DECLARED
+typedef __fsfilcnt_t fsfilcnt_t;
+#define _FSFILCNT_T_DECLARED
+#endif
 
 struct statvfs {
 	unsigned long f_bsize, f_frsize;

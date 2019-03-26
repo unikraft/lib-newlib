@@ -30,14 +30,29 @@
 extern "C" {
 #endif
 
+#include <sys/_types.h>
 #include <stddef.h>
 
-#define __NEED_mode_t
-#define __NEED_size_t
-#define __NEED_off_t
+#ifndef _OFF_T_DECLARED
+typedef __off_t off_t;
+#define _OFF_T_DECLARED
+#endif
+
+#ifndef _SIZE_T_DECLARED
+typedef __size_t size_t;
+#define _SIZE_T_DECLARED
+#endif
+
+#ifndef _MODE_T_DECLARED
+typedef __mode_t mode_t;
+#define _MODE_T_DECLARED
+#endif
 
 #if defined(_GNU_SOURCE)
-#define __NEED_ssize_t
+#ifndef _SSIZE_T_DECLARED
+typedef __ssize_t ssize_t;
+#define _SSIZE_T_DECLARED
+#endif
 #endif
 
 #define MAP_FAILED ((void *) -1)

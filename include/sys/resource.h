@@ -31,12 +31,19 @@
 extern "C" {
 #endif
 
+#include <sys/_types.h>
 #include <sys/time.h>
 
-#define __NEED_id_t
+#ifndef _ID_T_DECLARED
+typedef __id_t id_t;
+#define _ID_T_DECLARED
+#endif
 
 #ifdef _GNU_SOURCE
-#define __NEED_pid_t
+#ifndef _PID_T_DECLARED
+typedef __pid_t pid_t;
+#define _PID_T_DECLARED
+#endif
 #endif
 
 typedef unsigned long long rlim_t;
