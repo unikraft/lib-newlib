@@ -59,6 +59,7 @@
 #endif /* __DYNAMIC_REENT__ */
 #endif /* __rtems__ */
 
+#define _POSIX_MONOTONIC_CLOCK 1
 #include_next <time.h>
 
 /* cleanup __rtems__ */

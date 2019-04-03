@@ -36,6 +36,7 @@
  */
 
 #include <errno.h>
+#include <time.h>
 #include <sys/time.h>
 #include <utime.h>
 #include <uk/plat/time.h>
@@ -49,6 +50,15 @@
 int
 gettimeofday(struct timeval *tv __unused, void *tz __unused)
 {
+	__nsec now = ukplat_wall_clock();
+
+	if (!tv) {
+		errno = EINVAL;
+		return -1;
+	}
+
+	tv->tv_sec = ukarch_time_nsec_to_sec(now);
+	tv->tv_usec = ukarch_time_nsec_to_usec(ukarch_time_subsec(now));
 	return 0;
 }
 
@@ -103,7 +113,40 @@ int nanosleep(const struct timespec *req, struct timespec *rem)
 	return 0;
 }
 
+unsigned int sleep(unsigned int seconds)
+{
+	struct timespec ts;
+
+	ts.tv_sec = seconds;
+	ts.tv_nsec = 0;
+	if (nanosleep(&ts, &ts))
+		return ts.tv_sec;
+
+	return 0;
+}
+
 int clock_gettime(clockid_t clk_id __unused, struct timespec *tp __unused)
 {
+	__nsec now;
+
+	if (!tp) {
+		errno = EFAULT;
+		return -1;
+	}
+
+	switch (clk_id) {
+	case CLOCK_MONOTONIC:
+		now = ukplat_monotonic_clock();
+		break;
+	case CLOCK_REALTIME:
+		now = ukplat_wall_clock();
+		break;
+	default:
+		errno = EINVAL;
+		return -1;
+	}
+
+	tp->tv_sec = ukarch_time_nsec_to_sec(now);
+	tp->tv_nsec = ukarch_time_subsec(now);
 	return 0;
 }
