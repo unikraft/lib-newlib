@@ -81,11 +81,6 @@ struct dirent *readdir(DIR *dirp __unused)
 	return NULL;
 }
 
-DIR *opendir(const char *dirname __unused)
-{
-	return NULL;
-}
-
 DIR *fdopendir(int fd __unused)
 {
 	return NULL;
