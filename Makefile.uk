@@ -84,18 +84,22 @@ LIBNEWLIBM_CXXINCLUDES += -I$(LIBNEWLIB_LIBM)/common
 LIBNEWLIBC_CFLAGS-y       += -DMISSING_SYSCALL_NAMES -DMALLOC_PROVIDED
 
 # Suppress some warnings to make the build process look neater
-SUPPRESS_FLAGS += -Wno-unused-parameter -Wno-unused-variable -Wno-nonnull	\
+LIBNEWLIB_SUPPRESS_FLAGS-y += \
+-Wno-unused-parameter -Wno-unused-variable -Wno-nonnull				\
 -Wno-unused-but-set-variable -Wno-unused-label -Wno-char-subscripts		\
 -Wno-unused-function -Wno-missing-field-initializers -Wno-uninitialized		\
 -Wno-array-bounds -Wno-maybe-uninitialized -Wno-pointer-sign -Wno-unused-value	\
 -Wno-unused-macros -Wno-parentheses -Wno-implicit-function-declaration		\
 -Wno-missing-braces -Wno-endif-labels -Wno-unused-but-set-variable		\
--Wno-implicit-function-declaration -Wno-type-limits -Wno-sign-compare
+-Wno-type-limits -Wno-sign-compare
+LIBNEWLIB_SUPPRESS_FLAGS-$(call gcc_version_ge,6,0) += -Wno-misleading-indentation
+LIBNEWLIB_SUPPRESS_FLAGS-$(call gcc_version_ge,6,0) += -Wno-shift-negative-value
+LIBNEWLIB_SUPPRESS_FLAGS-$(call gcc_version_ge,7,0) += -Wno-implicit-fallthrough
 
-LIBNEWLIBC_CFLAGS-y   += $(SUPPRESS_FLAGS)
-LIBNEWLIBM_CFLAGS-y   += $(SUPPRESS_FLAGS)
-LIBNEWLIBC_CXXFLAGS-y += $(SUPPRESS_FLAGS)
-LIBNEWLIBM_CXXFLAGS-y += $(SUPPRESS_FLAGS)
+LIBNEWLIBC_CFLAGS-y   += $(LIBNEWLIB_SUPPRESS_FLAGS-y)
+LIBNEWLIBM_CFLAGS-y   += $(LIBNEWLIB_SUPPRESS_FLAGS-y)
+LIBNEWLIBC_CXXFLAGS-y += $(LIBNEWLIB_SUPPRESS_FLAGS-y)
+LIBNEWLIBM_CXXFLAGS-y += $(LIBNEWLIB_SUPPRESS_FLAGS-y)
 
 ################################################################################
 # OS dependencies code - Glue between Unicore and newlib
