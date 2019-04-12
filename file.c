@@ -76,11 +76,6 @@ void rewinddir(DIR *dirp __unused)
 {
 }
 
-struct dirent *readdir(DIR *dirp __unused)
-{
-	return NULL;
-}
-
 DIR *fdopendir(int fd __unused)
 {
 	return NULL;
