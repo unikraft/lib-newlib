@@ -45,47 +45,6 @@ extern int errno;
 #define STDOUT_FILENO   1       /* standard output file descriptor */
 #define STDERR_FILENO   2       /* standard error file descriptor */
 
-int link(char *old __unused, char *new __unused)
-{
-	errno = EMLINK;
-	return -1;
-}
-
-int lseek(int file __unused, int ptr __unused, int dir __unused)
-{
-	return 0;
-}
-
-int access(const char *path __unused, int amode __unused)
-{
-	return 0;
-}
-
-int chdir(const char *path __unused)
-{
-	return 0;
-}
-
-#include <dirent.h>
-int closedir(DIR *dirp __unused)
-{
-	return 0;
-}
-
-void rewinddir(DIR *dirp __unused)
-{
-}
-
-DIR *fdopendir(int fd __unused)
-{
-	return NULL;
-}
-
-int rmdir(const char *path __unused)
-{
-	return 0;
-}
-
 mode_t umask(mode_t cmask __unused)
 {
 	return 0;
