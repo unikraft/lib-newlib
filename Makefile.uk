@@ -318,7 +318,8 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/posix/regfree.c
 ################################################################################
 ifeq ($(CONFIG_HAVE_SCHED),y)
 # if scheduling enabled, then Unikraft provides __getreent()
-LIBNEWLIBC_CFLAGS-y += -D__DYNAMIC_REENT__
+CFLAGS-$(CONFIG_LIBNEWLIBC) += -D__DYNAMIC_REENT__
+CXXFLAGS-$(CONFIG_LIBNEWLIBC) += -D__DYNAMIC_REENT__
 else
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/reent/getreent.c
 endif
