@@ -41,36 +41,7 @@
  * such as nanosleep
  */
 #define _POSIX_TIMERS 1
-
-/* define __rtems__ only if not previously defined */
-#ifndef __rtems__
-/* A definition only for this header */
-#define __undef_rtems__NEWLIBGLUE_TIME_H
-#define __rtems__
-
-/*
- * __DYNAMIC_REENT__ is defined in sys/config.h if
- * __rtems__ is defined; we undefine it in order to
- * avoid warnings.
- */
-#ifdef __DYNAMIC_REENT__
-#define __define_DYNAMIC_REENT__NEWLIBGLUE_TIME_H
-#undef __DYNAMIC_REENT__
-#endif /* __DYNAMIC_REENT__ */
-#endif /* __rtems__ */
-
 #define _POSIX_MONOTONIC_CLOCK 1
 #include_next <time.h>
-
-/* cleanup __rtems__ */
-#ifdef __undef_rtems__NEWLIBGLUE_TIME_H
-#undef __rtems__
-#undef __undef_rtems__NEWLIBGLUE_TIME_H
-#endif
-
-#ifdef __define_DYNAMIC_REENT__NEWLIBGLUE_TIME_H
-#define __DYNAMIC_REENT__
-#undef __define_DYNAMIC_REENT__NEWLIBGLUE_TIME_H
-#endif
 
 #endif /* NEWLIBGLUE_TIME_H */
