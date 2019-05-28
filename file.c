@@ -35,7 +35,15 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
+#include <uk/config.h>
+#include <uk/sched.h>
 #include <uk/plat/console.h>
+#if CONFIG_LWIP_SOCKET
+#include <lwip/sockets.h>
+#else
+#include <poll.h>
+#include <sys/select.h>
+#endif
 #include <sys/stat.h>
 #include <errno.h>
 #undef errno
@@ -66,3 +74,28 @@ int munmap(void *addr __unused, size_t len __unused)
 {
 	return 0;
 }
+
+#if !CONFIG_LWIP_SOCKET
+int poll(struct pollfd _pfd[] __unused, nfds_t _nfds __unused,
+		int _timeout __unused)
+{
+	errno = ENOTSUP;
+	return -1;
+}
+
+int select(int nfds, fd_set *readfds __unused, fd_set *writefds __unused,
+		fd_set *exceptfds __unused, struct timeval *timeout)
+{
+	uint64_t nsecs;
+
+	if (nfds == 0) {
+		nsecs = timeout->tv_sec * 1000000000;
+		nsecs += timeout->tv_usec * 1000;
+		uk_sched_thread_sleep(nsecs);
+		return 0;
+	}
+
+	errno = ENOTSUP;
+	return -1;
+}
+#endif /* !CONFIG_LWIP_SOCKET */

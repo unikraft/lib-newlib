@@ -34,6 +34,10 @@
 #ifndef _POSIX_SYS_POLL_H_
 #define _POSIX_SYS_POLL_H_
 
+/* LWIP's socket interface provides poll primitives */
+#include <uk/config.h>
+#if !CONFIG_LWIP_SOCKET
+
 /*
  * This file is intended to be compatible with the traditional poll.h.
  */
@@ -77,4 +81,5 @@ struct pollfd {
 
 int poll(struct pollfd _pfd[], nfds_t _nfds, int _timeout);
 
+#endif /* !CONFIG_LWIP_SOCKET */
 #endif /* _POSIX_SYS_POLL_H_ */
