@@ -34,10 +34,11 @@
 #ifndef _POSIX_SYS_POLL_H_
 #define _POSIX_SYS_POLL_H_
 
-/* LWIP's socket interface provides poll primitives */
 #include <uk/config.h>
-#if !CONFIG_LWIP_SOCKET
-
+/* LWIP's socket interface provides poll primitives */
+#if CONFIG_LWIP_SOCKET
+#include <lwip/sockets.h>
+#else
 /*
  * This file is intended to be compatible with the traditional poll.h.
  */
