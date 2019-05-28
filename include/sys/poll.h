@@ -59,21 +59,21 @@ struct pollfd {
  * POLLIN includes all of normal, band and urgent data.  Most poll handlers
  * on FreeBSD only treat it as "normal" data.
  */
-#define POLLIN      0x0001   /* any readable data available */
-#define POLLPRI     0x0002   /* OOB/Urgent readable data */
-#define POLLOUT     0x0004   /* file descriptor is writeable */
-#define POLLRDNORM  0x0040   /* non-OOB/URG data available */
+#define POLLIN      0x001   /* any readable data available */
+#define POLLPRI     0x002   /* OOB/Urgent readable data */
+#define POLLOUT     0x004   /* file descriptor is writeable */
+#define POLLRDNORM  0x040   /* non-OOB/URG data available */
 #define POLLWRNORM  POLLOUT  /* no write type differentiation */
-#define POLLRDBAND  0x0080   /* OOB/Urgent readable data */
-#define POLLWRBAND  0x0100   /* OOB/Urgent data can be written */
+#define POLLRDBAND  0x080   /* OOB/Urgent readable data */
+#define POLLWRBAND  0x100   /* OOB/Urgent data can be written */
 
 /*
  * These events are set if they occur regardless of whether they were
  * requested.
  */
-#define POLLERR     0x0008   /* some poll error occurred */
-#define POLLHUP     0x0010   /* file descriptor was "hung up" */
-#define POLLNVAL    0x0020   /* requested events "invalid" */
+#define POLLERR     0x008   /* some poll error occurred */
+#define POLLHUP     0x010   /* file descriptor was "hung up" */
+#define POLLNVAL    0x020   /* requested events "invalid" */
 
 int poll(struct pollfd _pfd[], nfds_t _nfds, int _timeout);
 
