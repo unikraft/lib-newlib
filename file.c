@@ -58,11 +58,6 @@ mode_t umask(mode_t cmask __unused)
 	return 0;
 }
 
-long pathconf(const char *path __unused, int name __unused)
-{
-	return 0;
-}
-
 #include <sys/mman.h>
 void *mmap(void *addr __unused, size_t len __unused, int prot __unused,
 		int flags __unused, int fildes __unused, off_t off __unused)
