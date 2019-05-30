@@ -113,6 +113,18 @@ int nanosleep(const struct timespec *req, struct timespec *rem)
 	return 0;
 }
 
+int usleep(useconds_t usec)
+{
+	struct timespec ts;
+
+	ts.tv_sec = (long int) (usec / 1000000);
+	ts.tv_nsec = (long int) ukarch_time_usec_to_nsec(usec % 1000000);
+	if (nanosleep(&ts, &ts))
+		return -1;
+
+	return 0;
+}
+
 unsigned int sleep(unsigned int seconds)
 {
 	struct timespec ts;
