@@ -35,11 +35,23 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
+#include <errno.h>
+#include <sys/stat.h>
 #include <uk/essentials.h>
 
-int isatty(int file __unused)
+int isatty(int fd)
 {
-	return 1;
+	struct stat buf;
+
+	if (fstat(fd, &buf) < 0) {
+		errno = EBADF;
+		return 0;
+	}
+	if (S_ISCHR(buf.st_mode))
+		return 1;
+
+	errno = ENOTTY;
+	return 0;
 }
 
 char *ttyname(int fd __unused)
