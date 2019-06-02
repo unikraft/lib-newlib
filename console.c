@@ -41,3 +41,13 @@ int isatty(int file __unused)
 {
 	return 1;
 }
+
+char *ttyname(int fd __unused)
+{
+	return 0;
+}
+
+char *ctermid(char *s __unused)
+{
+	return 0;
+}

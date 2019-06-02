@@ -37,6 +37,9 @@
 
 #include <time.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/resource.h>
 #undef errno
 extern int errno;
 
@@ -44,6 +47,26 @@ int execve(char *name __unused, char **argv __unused, char **env __unused)
 {
 	errno = ENOMEM;
 	return -1;
+}
+
+int execv(const char *path __unused, char *const argv[] __unused)
+{
+	return 0;
+}
+
+int system(const char *command __unused)
+{
+	return 0;
+}
+
+FILE *popen(const char *command __unused, const char *type __unused)
+{
+	return NULL;
+}
+
+int pclose(FILE *stream __unused)
+{
+	return 0;
 }
 
 int fork(void)
@@ -55,6 +78,11 @@ int fork(void)
 int getpid(void)
 {
 	return 1;
+}
+
+pid_t getppid(void)
+{
+	return 0;
 }
 
 int kill(int pid __unused, int sig __unused)
@@ -72,4 +100,69 @@ int wait(int *status __unused)
 {
 	errno = ECHILD;
 	return -1;
+}
+
+int setpgrp(void)
+{
+	return 0;
+}
+
+
+int killpg(int pgrp __unused, int sig __unused)
+{
+	return 0;
+}
+
+
+pid_t wait3(int *wstatus __unused, int options __unused,
+		struct rusage *rusage __unused)
+{
+	return 0;
+}
+
+pid_t wait4(pid_t pid __unused, int *wstatus __unused, int options __unused,
+		struct rusage *rusage __unused)
+{
+	return 0;
+}
+
+pid_t waitpid(pid_t pid __unused, int *wstatus __unused, int options __unused)
+{
+	return 0;
+}
+
+pid_t setsid(void)
+{
+	return 0;
+}
+
+pid_t getsid(pid_t pid __unused)
+{
+	return 0;
+}
+
+int setpgid(pid_t pid __unused, pid_t pgid __unused)
+{
+	return 0;
+}
+
+pid_t getpgid(pid_t pid)
+{
+	return 0;
+}
+
+
+int tcsetpgrp(int fd __unused, pid_t pgrp __unused)
+{
+	return 0;
+}
+
+pid_t tcgetpgrp(int fd __unused)
+{
+	return 0;
+}
+
+int nice(int inc __unused)
+{
+	return 0;
 }

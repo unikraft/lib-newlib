@@ -46,3 +46,8 @@ int setrlimit(int resource __unused, const struct rlimit *rlim __unused)
 {
 	return 0;
 }
+
+int getrusage(int who __unused, struct rusage *usage __unused)
+{
+	return 0;
+}

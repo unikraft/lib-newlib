@@ -94,3 +94,26 @@ int select(int nfds, fd_set *readfds __unused, fd_set *writefds __unused,
 	return -1;
 }
 #endif /* !CONFIG_LWIP_SOCKET */
+
+int fchown(int fd __unused, uid_t owner __unused, gid_t group __unused)
+{
+	return 0;
+}
+
+int lchown(const char *pathname __unused, uid_t owner __unused,
+		gid_t group __unused)
+{
+	return 0;
+}
+
+
+int utimes(const char *filename __unused,
+		const struct timeval times[2] __unused)
+{
+	return 0;
+}
+
+int pipe(int pipefd[2] __unused)
+{
+	return 0;
+}
