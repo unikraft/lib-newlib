@@ -65,10 +65,13 @@ LIBNEWLIB_LIBM = $(LIBNEWLIBC_ORIGIN)/$(LIBNEWLIB_SUBDIR)/newlib/libm
 ################################################################################
 # Library includes
 ################################################################################
-CINCLUDES-$(CONFIG_LIBNEWLIBC)   += -I$(LIBNEWLIBC_BASE)/include
-CINCLUDES-$(CONFIG_LIBNEWLIBC)   += -I$(LIBNEWLIB_LIBC)/include
-CXXINCLUDES-$(CONFIG_LIBNEWLIBC) += -I$(LIBNEWLIBC_BASE)/include
-CXXINCLUDES-$(CONFIG_LIBNEWLIBC) += -I$(LIBNEWLIB_LIBC)/include
+LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIBC_BASE)/include
+LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIBC_BASE)/musl-imported/include
+LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIBC_BASE)/musl-imported/arch/generic
+LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIB_LIBC)/include
+
+CINCLUDES-$(CONFIG_LIBNEWLIBC)   += $(LIBNEWLIBC_COMMON_INCLUDES-y)
+CXXINCLUDES-$(CONFIG_LIBNEWLIBC) += $(LIBNEWLIBC_COMMON_INCLUDES-y)
 
 LIBNEWLIBM_CINCLUDES   += -I$(LIBNEWLIB_LIBM)/common
 LIBNEWLIBM_CXXINCLUDES += -I$(LIBNEWLIB_LIBM)/common
