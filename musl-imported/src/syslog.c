@@ -7,9 +7,13 @@
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
-#include <libc.h>
+#include <uk/mutex.h>
 
-static mutex_t lock;
+
+#define LOCK(x) uk_mutex_lock(&(x))
+#define UNLOCK(x) uk_mutex_unlock(&(x))
+
+static struct uk_mutex lock = UK_MUTEX_INITIALIZER(lock);
 static char log_ident[32];
 static int log_opt;
 static int log_facility = LOG_USER;
@@ -35,7 +39,7 @@ void closelog(void)
 {
 }
 
-void __syslog_chk(int priority, int flag, const char *message, ...)
+void syslog(int priority, const char *message, ...)
 {
     LOCK(lock);
 
@@ -70,4 +74,3 @@ void __syslog_chk(int priority, int flag, const char *message, ...)
 
     UNLOCK(lock);
 }
-

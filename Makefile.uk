@@ -113,6 +113,7 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/time.c|glue
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/locale.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/dev.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/signal.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/syslog.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcsetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcgetattr.c
 
