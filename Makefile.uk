@@ -99,6 +99,10 @@ LIBNEWLIBM_CFLAGS-y   += $(LIBNEWLIB_SUPPRESS_FLAGS-y)
 LIBNEWLIBC_CXXFLAGS-y += $(LIBNEWLIB_SUPPRESS_FLAGS-y)
 LIBNEWLIBM_CXXFLAGS-y += $(LIBNEWLIB_SUPPRESS_FLAGS-y)
 
+LIBNEWLIBGLUE_SUPPRESS_FLAGS-y += -Wno-unused-parameter
+LIBNEWLIBGLUE_CFLAGS-y   += $(LIBNEWLIBGLUE_SUPPRESS_FLAGS-y)
+LIBNEWLIBGLUE_CXXFLAGS-y += $(LIBNEWLIBGLUE_SUPPRESS_FLAGS-y)
+
 ################################################################################
 # OS dependencies code - Glue between Unicore and newlib
 ################################################################################
