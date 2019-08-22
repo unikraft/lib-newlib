@@ -80,7 +80,11 @@ LIBNEWLIBM_CXXINCLUDES += -I$(LIBNEWLIB_LIBM)/common
 ################################################################################
 # Global flags
 ################################################################################
-LIBNEWLIBC_CFLAGS-y       += -DMISSING_SYSCALL_NAMES -DMALLOC_PROVIDED
+LIBNEWLIB_GLOBAL_FLAGS-y  += -DMISSING_SYSCALL_NAMES -DMALLOC_PROVIDED
+LIBNEWLIB_GLOBAL_FLAGS-y  += -D_POSIX_REALTIME_SIGNALS
+
+CFLAGS-y   += $(LIBNEWLIB_GLOBAL_FLAGS-y)
+CXXFLAGS-y += $(LIBNEWLIB_GLOBAL_FLAGS-y)
 
 # Suppress some warnings to make the build process look neater
 LIBNEWLIB_SUPPRESS_FLAGS-y += \
