@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include <features.h>
+/* TODO #include <features.h> */
 
 #define __NEED_sa_family_t
 #if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
