@@ -35,20 +35,23 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
-#include <pty.h>
-#include <sys/types.h>
 #include <uk/essentials.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <pty.h>
 
 int openpty(int *amaster __unused, int *aslave __unused, char *name __unused,
 		const struct termios *termp __unused,
 		const struct winsize *winp __unused)
 {
-	return 0;
+	errno = ENOENT;
+	return -1;
 }
 
 pid_t forkpty(int *amaster __unused, char *name __unused,
 		const struct termios *termp __unused,
 		const struct winsize *winp __unused)
 {
-	return 0;
+	errno = ENOENT;
+	return -1;
 }
