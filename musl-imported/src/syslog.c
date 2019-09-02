@@ -70,6 +70,7 @@
 static struct uk_mutex lock = UK_MUTEX_INITIALIZER(lock);
 static char log_ident[32];
 static int log_opt;
+static int log_mask = 0xff;
 static int log_facility = LOG_USER;
 
 void openlog(const char *ident, int opt, int facility)
@@ -95,6 +96,18 @@ void closelog(void)
 {
 }
 
+int setlogmask(int maskpri)
+{
+	int ret;
+
+	LOCK(lock);
+	ret = log_mask;
+	if (maskpri)
+		log_mask = maskpri;
+	UNLOCK(lock);
+	return ret;
+}
+
 void syslog(int priority, const char *message, ...)
 {
 	va_list ap;
@@ -104,6 +117,9 @@ void syslog(int priority, const char *message, ...)
 	char buf[256];
 	int pid;
 	int l, l2;
+
+	if (!(log_mask & LOG_MASK(priority & 7)) || (priority & ~0x3ff))
+		return;
 
 	LOCK(lock);
 
