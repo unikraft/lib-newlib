@@ -47,6 +47,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #undef errno
+#include <stdlib.h>
 extern int errno;
 
 #define STDIN_FILENO    0       /* standard input file descriptor */
@@ -114,6 +115,11 @@ int utimes(const char *filename __unused,
 }
 
 int pipe(int pipefd[2] __unused)
+{
+	return 0;
+}
+
+char *realpath(const char *restrict file_name, char *restrict resolved_name)
 {
 	return 0;
 }
