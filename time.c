@@ -137,6 +137,11 @@ unsigned int sleep(unsigned int seconds)
 	return 0;
 }
 
+int clock_getres(clockid_t clk_id __unused, struct timespec *res __unused)
+{
+	return 0;
+}
+
 int clock_gettime(clockid_t clk_id __unused, struct timespec *tp __unused)
 {
 	__nsec now;
@@ -160,5 +165,10 @@ int clock_gettime(clockid_t clk_id __unused, struct timespec *tp __unused)
 
 	tp->tv_sec = ukarch_time_nsec_to_sec(now);
 	tp->tv_nsec = ukarch_time_subsec(now);
+	return 0;
+}
+
+int clock_settime(clockid_t clk_id __unused, const struct timespec *tp __unused)
+{
 	return 0;
 }
