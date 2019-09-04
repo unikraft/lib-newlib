@@ -60,11 +60,13 @@ typedef struct {
 } mcontext_t;
 #endif
 
+#if 0
 struct sigaltstack {
 	void *ss_sp;
 	int ss_flags;
 	size_t ss_size;
 };
+#endif
 
 typedef struct __ucontext {
 	unsigned long uc_flags;
@@ -75,6 +77,7 @@ typedef struct __ucontext {
 	unsigned long __fpregs_mem[64];
 } ucontext_t;
 
+#if 0
 #define SA_NOCLDSTOP  1
 #define SA_NOCLDWAIT  2
 #define SA_SIGINFO    4
@@ -83,9 +86,11 @@ typedef struct __ucontext {
 #define SA_NODEFER    0x40000000
 #define SA_RESETHAND  0x80000000
 #define SA_RESTORER   0x04000000
+#endif
 
 #endif
 
+#if 0
 #define SIGHUP    1
 #define SIGINT    2
 #define SIGQUIT   3
@@ -122,3 +127,4 @@ typedef struct __ucontext {
 #define SIGUNUSED SIGSYS
 
 #define _NSIG 65
+#endif
