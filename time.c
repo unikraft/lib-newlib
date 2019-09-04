@@ -172,3 +172,9 @@ int clock_settime(clockid_t clk_id __unused, const struct timespec *tp __unused)
 {
 	return 0;
 }
+
+int times(struct tm *buf __unused)
+{
+	errno = ENODATA;
+	return -1;
+}

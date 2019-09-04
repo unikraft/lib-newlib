@@ -3,7 +3,7 @@
  * libnewlib glue code
  *
  * Authors: Felipe Huici <felipe.huici@neclab.eu>
- *
+ *          Costin Lupu <costin.lupu@cs.pub.ro>
  *
  * Copyright (c) 2017, NEC Europe Ltd., NEC Corporation. All rights reserved.
  *
@@ -35,134 +35,199 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
-#include <time.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/resource.h>
+#include <uk/process.h>
+#include <uk/print.h>
 #undef errno
 extern int errno;
 
-int execve(char *name __unused, char **argv __unused, char **env __unused)
+
+int fork(void)
 {
-	errno = ENOMEM;
+	/* fork() is not supported on this platform */
+	errno = ENOSYS;
 	return -1;
 }
 
-int execv(const char *path __unused, char *const argv[] __unused)
+static
+void exec_warn(const char *func,
+		const char *path, char *const argv[], char *const envp[])
 {
-	return 0;
+	int i;
+
+	uk_pr_warn("%s(): path=%s", func, path);
+
+	/* print arguments */
+	i = 0;
+	uk_pr_warn(" argv=[");
+	while (argv[i]) {
+		uk_pr_warn("%s%s", (i > 0 ? ", " : ""), argv[i]);
+		i++;
+	}
+	uk_pr_warn("]");
+
+	/* print environment variables */
+	if (envp) {
+		i = 0;
+		uk_pr_warn(" envp=[");
+		while (envp[i]) {
+			uk_pr_warn("%s%s", (i > 0 ? ", " : ""), envp[i]);
+			i++;
+		}
+		uk_pr_warn("]");
+	}
+
+	uk_pr_warn("\n");
 }
 
-int system(const char *command __unused)
+int execve(const char *path, char *const argv[], char *const envp[])
 {
-	return 0;
+	exec_warn(__func__, path, argv, envp);
+	errno = ENOSYS;
+	return -1;
 }
 
-FILE *popen(const char *command __unused, const char *type __unused)
+int execv(const char *path, char *const argv[])
 {
+	exec_warn(__func__, path, argv, NULL);
+	errno = ENOSYS;
+	return -1;
+}
+
+int system(const char *command)
+{
+	uk_pr_warn("%s: %s\n", __func__, command);
+	errno = ENOSYS;
+	return -1;
+}
+
+FILE *popen(const char *command, const char *type __unused)
+{
+	uk_pr_warn("%s: %s\n", __func__, command);
+	errno = ENOSYS;
 	return NULL;
 }
 
 int pclose(FILE *stream __unused)
 {
-	return 0;
-}
-
-int fork(void)
-{
-	errno = EAGAIN;
-	return -1;
-}
-
-int getpid(void)
-{
-	return 1;
-}
-
-pid_t getppid(void)
-{
-	return 0;
-}
-
-int kill(int pid __unused, int sig __unused)
-{
 	errno = EINVAL;
-	return -1;
-}
-
-int times(struct tm *buf __unused)
-{
 	return -1;
 }
 
 int wait(int *status __unused)
 {
+	/* No children */
 	errno = ECHILD;
 	return -1;
 }
 
-int setpgrp(void)
+pid_t waitpid(pid_t pid __unused, int *wstatus __unused, int options __unused)
 {
-	return 0;
+	/* No children */
+	errno = ECHILD;
+	return -1;
 }
-
-
-int killpg(int pgrp __unused, int sig __unused)
-{
-	return 0;
-}
-
 
 pid_t wait3(int *wstatus __unused, int options __unused,
 		struct rusage *rusage __unused)
 {
-	return 0;
+	/* No children */
+	errno = ECHILD;
+	return -1;
 }
 
 pid_t wait4(pid_t pid __unused, int *wstatus __unused, int options __unused,
 		struct rusage *rusage __unused)
 {
-	return 0;
+	/* No children */
+	errno = ECHILD;
+	return -1;
 }
 
-pid_t waitpid(pid_t pid __unused, int *wstatus __unused, int options __unused)
+int getpid(void)
 {
-	return 0;
+	return UNIKRAFT_PID;
+}
+
+pid_t getppid(void)
+{
+	return UNIKRAFT_PPID;
 }
 
 pid_t setsid(void)
 {
-	return 0;
+	/* We have a single "session" with a single "process" */
+	errno = EPERM;
+	return (pid_t) -1;
 }
 
-pid_t getsid(pid_t pid __unused)
+pid_t getsid(pid_t pid)
 {
-	return 0;
+	if (pid != 0) {
+		/* We support only calls for the only calling "process" */
+		errno = ESRCH;
+		return (pid_t) -1;
+	}
+	return UNIKRAFT_SID;
 }
 
-int setpgid(pid_t pid __unused, pid_t pgid __unused)
+int setpgid(pid_t pid, pid_t pgid)
 {
+	if (pid != 0) {
+		/* We support only calls for the only calling "process" */
+		errno = ESRCH;
+		return (pid_t) -1;
+	}
+	if (pgid != 0) {
+		/* We have a single "group" with a single "process" */
+		errno = EPERM;
+		return (pid_t) -1;
+	}
 	return 0;
 }
 
 pid_t getpgid(pid_t pid)
 {
+	if (pid != 0) {
+		/* We support only calls for the only calling "process" */
+		errno = ESRCH;
+		return (pid_t) -1;
+	}
+	return UNIKRAFT_PGID;
+}
+
+pid_t getpgrp(void)
+{
+	return UNIKRAFT_PGID;
+}
+
+int setpgrp(void)
+{
+	return setpgid(0, 0);
+}
+
+int tcsetpgrp(int fd __unused, pid_t pgrp)
+{
+	/* TODO check if fd is BADF */
+	if (pgrp != UNIKRAFT_PGID) {
+		errno = EINVAL;
+		return -1;
+	}
 	return 0;
 }
 
-
-int tcsetpgrp(int fd __unused, pid_t pgrp __unused)
+pid_t tcgetpgrp(int fd)
 {
-	return 0;
-}
-
-pid_t tcgetpgrp(int fd __unused)
-{
-	return 0;
+	/* We have a single "process group" */
+	return UNIKRAFT_PGID;
 }
 
 int nice(int inc __unused)
 {
-	return 0;
+	/* We don't support priority updates for unikernels */
+	errno = EPERM;
+	return -1;
 }

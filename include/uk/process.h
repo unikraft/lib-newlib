@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 /*
- * Authors: Vlad-Andrei Badoiu <vlad_andrei.badoiu@stud.acs.upb.ro
+ * Authors: Costin Lupu <costin.lupu@cs.pub.ro>
  *
  * Copyright (c) 2019, University Politehnica of Bucharest. All rights reserved.
  *
@@ -32,43 +32,12 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
-#include <uk/process.h>
-#include <errno.h>
-#include <signal.h>
+#ifndef __UK_PROCESS_H__
+#define __UK_PROCESS_H__
 
-int sigaction(int sig __unused, const struct sigaction *restrict act __unused,
-	      struct sigaction *restrict oact __unused)
-{
-	return 0;
-}
+#define UNIKRAFT_PID      1
+#define UNIKRAFT_PPID     0
+#define UNIKRAFT_SID      0
+#define UNIKRAFT_PGID     0
 
-unsigned int alarm(unsigned int seconds __unused)
-{
-	return 0;
-}
-
-int pause(void)
-{
-	return 0;
-}
-
-int siginterrupt(int sig __unused, int flag __unused)
-{
-	return 0;
-}
-
-int kill(int pid, int sig __unused)
-{
-	/* TODO check sig */
-	if (pid != UNIKRAFT_PID)
-		errno = ESRCH;
-	return -1;
-}
-
-int killpg(int pgrp, int sig __unused)
-{
-	/* TODO check sig */
-	if (pgrp != UNIKRAFT_PGID)
-		errno = ESRCH;
-	return -1;
-}
+#endif /* __UK_PROCESS_H__ */
