@@ -116,7 +116,8 @@ int utimes(const char *filename __unused,
 
 int pipe(int pipefd[2] __unused)
 {
-	return 0;
+	errno = EFAULT;
+	return -1;
 }
 
 char *realpath(const char *restrict file_name, char *restrict resolved_name)
