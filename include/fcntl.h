@@ -11,14 +11,21 @@
 #define O_DIRECTORY 0200000
 #define O_CLOEXEC  02000000
 #define O_DSYNC      010000
-#endif
-
-#if ((defined CONFIG_ARCH_ARM_64) || (defined CONFIG_ARCH_ARM_32))
+#define O_ASYNC      020000
+#define O_DIRECT     040000
+#define O_NOATIME  01000000
+#elif ((defined CONFIG_ARCH_ARM_64) || (defined CONFIG_ARCH_ARM_32))
 #define O_NOFOLLOW  0100000
 #define O_DIRECTORY  040000
 #define O_CLOEXEC  02000000
 #define O_DSYNC      010000
+#define O_ASYNC      020000
+#define O_DIRECT    0200000
+#define O_NOATIME  01000000
 #endif
+
+#define FIONBIO      0x5421
+#define FIOASYNC     0x5452
 
 
 /* Glibc does not provide KEEP_SIZE and PUNCH_HOLE anymore. Instead it

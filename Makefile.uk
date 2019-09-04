@@ -792,7 +792,7 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/string/wcsdup.c
 ################################################################################
 # Newlib/libc code -- syscalls
 ################################################################################
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/syscalls/sysfcntl.c
+#LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/syscalls/sysfcntl.c
 
 ################################################################################
 # Newlib/libc code -- time
