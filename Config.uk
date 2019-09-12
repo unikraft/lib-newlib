@@ -10,3 +10,13 @@ menuconfig LIBNEWLIBC
 	select LIBNEWLIBM if LIBNEWLIBC
 	select LIBUKALLOC
 	select LIBVFSCORE
+
+if LIBNEWLIBC
+	config LIBNEWLIBC_WANT_IO_C99_FORMATS
+		bool "Use C99 IO formats"
+		default n
+
+	config LIBNEWLIBC_LINUX_ERRNO_EXTENSIONS
+		bool "Use Linux errno extensions"
+		default n
+endif
