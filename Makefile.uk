@@ -461,7 +461,6 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/putchar_u.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/puts.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/refill.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/remove.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/rename.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/rewind.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/rget.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdio/scanf.c

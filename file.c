@@ -54,11 +54,6 @@ extern int errno;
 #define STDOUT_FILENO   1       /* standard output file descriptor */
 #define STDERR_FILENO   2       /* standard error file descriptor */
 
-mode_t umask(mode_t cmask __unused)
-{
-	return 0;
-}
-
 #include <sys/mman.h>
 void *mmap(void *addr __unused, size_t len __unused, int prot __unused,
 		int flags __unused, int fildes __unused, off_t off __unused)
@@ -95,18 +90,6 @@ int select(int nfds, fd_set *readfds __unused, fd_set *writefds __unused,
 	return -1;
 }
 #endif /* !CONFIG_LWIP_SOCKET */
-
-int fchown(int fd __unused, uid_t owner __unused, gid_t group __unused)
-{
-	return 0;
-}
-
-int lchown(const char *pathname __unused, uid_t owner __unused,
-		gid_t group __unused)
-{
-	return 0;
-}
-
 
 int utimes(const char *filename __unused,
 		const struct timeval times[2] __unused)
