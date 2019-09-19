@@ -54,18 +54,6 @@ extern int errno;
 #define STDOUT_FILENO   1       /* standard output file descriptor */
 #define STDERR_FILENO   2       /* standard error file descriptor */
 
-#include <sys/mman.h>
-void *mmap(void *addr __unused, size_t len __unused, int prot __unused,
-		int flags __unused, int fildes __unused, off_t off __unused)
-{
-	return 0;
-}
-
-int munmap(void *addr __unused, size_t len __unused)
-{
-	return 0;
-}
-
 #if !CONFIG_LWIP_SOCKET
 int poll(struct pollfd _pfd[] __unused, nfds_t _nfds __unused,
 		int _timeout __unused)
