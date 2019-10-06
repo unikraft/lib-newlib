@@ -57,6 +57,11 @@ int siginterrupt(int sig __unused, int flag __unused)
 	return 0;
 }
 
+int sigsuspend(const sigset_t *mask)
+{
+	return 0;
+}
+
 int kill(int pid, int sig __unused)
 {
 	/* TODO check sig */
