@@ -9,6 +9,7 @@ menuconfig LIBNEWLIBC
 	select HAVE_LIBC
 	select LIBNEWLIBM if LIBNEWLIBC
 	select LIBUKALLOC
+	select LIBUKTIME
 	select LIBVFSCORE
 
 if LIBNEWLIBC
