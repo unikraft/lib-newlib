@@ -1,10 +1,8 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 /*
- * libnewlib glue code
+ * Authors: Costin Lupu <costin.lupu@cs.pub.ro>
  *
- * Authors: Florian Schmidt <florian.schmidt@neclab.eu>
- *
- * Copyright (c) 2017, NEC Europe Ltd., NEC Corporation. All rights reserved.
+ * Copyright (c) 2019, University Politehnica of Bucharest. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -34,40 +32,11 @@
  * THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
  */
 
-#ifndef NEWLIBGLUE_TIME_H
-#define NEWLIBGLUE_TIME_H
+#ifndef __NEWLIB_GLUE_SYS_TIME_H__
+#define __NEWLIB_GLUE_SYS_TIME_H__
 
-/* Make newlib provide declarations for the timer functions
- * such as nanosleep
- */
-#define _POSIX_TIMERS 1
-#define _POSIX_MONOTONIC_CLOCK 1
+#include "_ansi.h"
 
 #include <sys/reent.h>
-#include <xlocale.h>
 
-typedef struct __tzrule_struct
-{
-	char ch;
-	int m;
-	int n;
-	int d;
-	int s;
-	time_t change;
-	long offset; /* Match type of _timezone. */
-} __tzrule_type;
-
-typedef struct __tzinfo_struct
-{
-	int __tznorth;
-	int __tzyear;
-	__tzrule_type  __tzrule [2];
-} __tzinfo_type;
-
-__tzinfo_type *__gettzinfo(void);
-
-extern long _timezone;
-extern int _daylight;
-extern char *_tzname[2];
-
-#endif /* NEWLIBGLUE_TIME_H */
+#endif /* __NEWLIB_GLUE_SYS_TIME_H__ */
