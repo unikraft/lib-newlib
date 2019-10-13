@@ -36,8 +36,12 @@
 #define __NEWLIB_GLUE__SYS_WAIT_H__
 
 #include_next <sys/wait.h>
+#include <sys/resource.h>
 
 #define WCOREDUMP(w)	(((w) & 0xff) == 0x80)
 #define WIFCONTINUED(w)	(WIFSIGNALED(w) && WEXITSTATUS(w) == 18)
+
+pid_t wait3(int *wstatus, int options, struct rusage *rusage);
+pid_t wait4(pid_t pid, int *wstatus, int options, struct rusage *rusage);
 
 #endif

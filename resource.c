@@ -36,6 +36,7 @@
  */
 
 #include <sys/resource.h>
+#include <uk/essentials.h>
 
 int getrlimit(int resource __unused, struct rlimit *rlim __unused)
 {

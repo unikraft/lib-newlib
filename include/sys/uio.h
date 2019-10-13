@@ -40,6 +40,8 @@
 extern "C" {
 #endif
 
+#include <sys/types.h>
+
 #define UIO_MAXIOV 1024
 
 struct iovec {
