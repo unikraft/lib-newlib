@@ -34,4 +34,7 @@
 
 #define si_pid si_code /* hack until we have signals in Unikraft */
 
+#define SA_NODEFER    0x40000000
+#define SA_RESETHAND  0x80000000
+
 #include_next <sys/signal.h>
