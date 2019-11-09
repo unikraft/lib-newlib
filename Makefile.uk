@@ -791,6 +791,7 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/string/strndup_r.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/string/wcpcpy.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/string/wcpncpy.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/string/wcsdup.c
+LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/string/wcscasecmp.c
 
 ################################################################################
 # Newlib/libc code -- syscalls
