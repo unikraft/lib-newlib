@@ -973,6 +973,20 @@ LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/math/w_tgamma.c
 # Newlib/libm code -- common
 ################################################################################
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/llroundl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/logl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/expl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/ceill.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/floorl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/ldexpl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/frexpl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/powl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/cosl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/sinl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/atanl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/tanl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/fmodl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/sinhl.c
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/coshl.c
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/s_finite.c
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/s_copysign.c
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/s_modf.c
