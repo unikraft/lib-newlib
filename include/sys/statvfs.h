@@ -59,7 +59,7 @@ struct statvfs {
 	int __reserved[6];
 };
 
-int statvfs(const char *restrict path, struct statvfs *restrict buf);
+int statvfs(const char *__restrict__ path, struct statvfs *__restrict__ buf);
 int fstatvfs(int fd, struct statvfs *buf);
 
 #define ST_RDONLY      1

@@ -66,8 +66,8 @@ int closedir(DIR *dirp);
 DIR *fdopendir(int fd);
 DIR *opendir(const char *name);
 struct dirent *readdir(DIR *dirp);
-int readdir_r(DIR *restrict dirp, struct dirent *restrict entry,
-		struct dirent **restrict result);
+int readdir_r(DIR *__restrict__ dirp, struct dirent *__restrict__ entry,
+		struct dirent **__restrict__ result);
 void rewinddir(DIR *dirp);
 int dirfd(DIR *dirp);
 
