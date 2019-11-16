@@ -86,6 +86,7 @@ LIBNEWLIB_GLOBAL_FLAGS-$(CONFIG_LIBNEWLIBC_WANT_IO_C99_FORMATS) += -D_WANT_IO_C9
 LIBNEWLIB_GLOBAL_FLAGS-$(CONFIG_LIBNEWLIBC_LINUX_ERRNO_EXTENSIONS) += -D__LINUX_ERRNO_EXTENSIONS__
 ifeq ($(CONFIG_ARCH_X86_64),y)
 LIBNEWLIB_GLOBAL_FLAGS-y  += -D_LDBL_EQ_DBL
+LIBNEWLIB_GLOBAL_FLAGS-y  += -D_HAVE_LONG_DOUBLE
 endif
 
 CFLAGS-y   += $(LIBNEWLIB_GLOBAL_FLAGS-y)
@@ -627,12 +628,11 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/reallocarray.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/reallocf.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/sb_charsets.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtod.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtodg.c|longdouble
-LIBNEWLIBC_STRTODG_LONGDOUBLE_FLAGS-y += -D_HAVE_LONG_DOUBLE
+LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtodg.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtoimax.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtol.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtorx.c|longdouble
-LIBNEWLIBC_STRTORX_LONGDOUBLE_FLAGS-y += -D_HAVE_LONG_DOUBLE
+LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtold.c
+LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtorx.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtoul.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtoumax.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/utoa.c
@@ -693,8 +693,6 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/wcrtomb.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/wcsnrtombs.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/wcsrtombs.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/wctob.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/strtold.c|longdouble
-LIBNEWLIBC_STRTOLD_LONGDOUBLE_FLAGS-y += -D_HAVE_LONG_DOUBLE
 
 ################################################################################
 # Newlib/libc code -- string
