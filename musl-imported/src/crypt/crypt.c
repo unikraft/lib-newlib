@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include <crypt.h>
+#include <_crypt.h>
 
 char *crypt(const char *key, const char *salt)
 {

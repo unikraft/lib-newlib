@@ -1,4 +1,4 @@
-#include <crypt.h>
+#include <_crypt.h>
 
 char *__crypt_r(const char *key, const char *salt, struct crypt_data *data)
 {
@@ -19,5 +19,9 @@ char *__crypt_r(const char *key, const char *salt, struct crypt_data *data)
 	}
 	return __crypt_des(key, salt, output);
 }
+
+/* TODO move this to some global header */
+#define weak_alias(old, new) \
+	extern __typeof(old) new __attribute__((__weak__, __alias__(#old)))
 
 weak_alias(__crypt_r, crypt_r);

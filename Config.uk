@@ -22,4 +22,8 @@ if LIBNEWLIBC
 	config LIBNEWLIBC_LINUX_ERRNO_EXTENSIONS
 		bool "Use Linux errno extensions"
 		default n
+
+	config LIBNEWLIBC_CRYPT
+		bool "Enable crypt() and crypt_r() functions"
+		default y
 endif

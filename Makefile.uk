@@ -68,6 +68,7 @@ LIBNEWLIB_LIBM = $(LIBNEWLIBC_ORIGIN)/$(LIBNEWLIB_SUBDIR)/newlib/libm
 LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIBC_BASE)/include
 LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIBC_BASE)/musl-imported/include
 LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIBC_BASE)/musl-imported/arch/generic
+LIBNEWLIBGLUE_CINCLUDES-y        += -I$(LIBNEWLIBC_BASE)/musl-imported/src/include
 LIBNEWLIBC_COMMON_INCLUDES-$(CONFIG_ARCH_X86_64) += -I$(LIBNEWLIBC_BASE)/musl-imported/arch/x86_64
 LIBNEWLIBC_COMMON_INCLUDES-y     += -I$(LIBNEWLIB_LIBC)/include
 
@@ -131,6 +132,20 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/mntent.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/misc/syslog.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcsetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcgetattr.c
+
+ifeq ($(CONFIG_LIBNEWLIBC_CRYPT),y)
+LIBNEWLIBGLUE_CFLAGS-y   += -Wno-missing-braces -Wno-sign-compare -Wno-char-subscripts
+LIBNEWLIBGLUE_CFLAGS-y   += -Dhidden=
+
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/crypt_blowfish.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/crypt.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/crypt_des.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/crypt_md5.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/crypt_r.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/crypt_sha256.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/crypt_sha512.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/crypt/encrypt.c
+endif
 
 ################################################################################
 # Newlib/libc code -- argz

@@ -3,7 +3,7 @@
 
 #include "../../include/crypt.h"
 
-#include <features.h>
+/* TODO #include <features.h> */
 
 hidden char *__crypt_r(const char *, const char *, struct crypt_data *);
 
