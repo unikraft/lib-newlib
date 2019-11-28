@@ -79,12 +79,6 @@ int select(int nfds, fd_set *readfds __unused, fd_set *writefds __unused,
 }
 #endif /* !CONFIG_LWIP_SOCKET */
 
-int utimes(const char *filename __unused,
-		const struct timeval times[2] __unused)
-{
-	return 0;
-}
-
 char *realpath(const char *restrict file_name, char *restrict resolved_name)
 {
 	return 0;
