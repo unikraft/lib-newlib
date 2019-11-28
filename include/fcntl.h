@@ -27,6 +27,12 @@
 #define FIONBIO      0x5421
 #define FIOASYNC     0x5452
 
+#define POSIX_FADV_NORMAL     0
+#define POSIX_FADV_RANDOM     1
+#define POSIX_FADV_SEQUENTIAL 2
+#define POSIX_FADV_WILLNEED   3
+#define POSIX_FADV_DONTNEED   4
+#define POSIX_FADV_NOREUSE    5
 
 /* Glibc does not provide KEEP_SIZE and PUNCH_HOLE anymore. Instead it
  * includes linux/falloc.h.
