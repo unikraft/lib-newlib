@@ -46,4 +46,6 @@
 #define AT_EMPTY_PATH 0x1000
 #endif
 
+int posix_fadvise(int fd, off_t offset, off_t len, int advice);
+
 #endif

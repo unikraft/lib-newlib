@@ -33,6 +33,7 @@
  */
 
 #include <uk/process.h>
+#include <uk/print.h>
 #include <errno.h>
 #include <signal.h>
 
@@ -75,5 +76,12 @@ int killpg(int pgrp, int sig __unused)
 	/* TODO check sig */
 	if (pgrp != UNIKRAFT_PGID)
 		errno = ESRCH;
+	return -1;
+}
+
+int sigaltstack(const stack_t *ss, stack_t *old_ss)
+{
+	WARN_STUBBED();
+	errno = ENOTSUP;
 	return -1;
 }

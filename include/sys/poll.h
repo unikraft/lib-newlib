@@ -84,4 +84,9 @@ struct pollfd {
 
 int poll(struct pollfd _pfd[], nfds_t _nfds, int _timeout);
 
+#ifdef _GNU_SOURCE
+int ppoll(struct pollfd *fds, nfds_t nfds,
+        const struct timespec *tmo_p, const sigset_t *sigmask);
+#endif
+
 #endif /* _POSIX_SYS_POLL_H_ */

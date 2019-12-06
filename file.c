@@ -38,6 +38,7 @@
 #include <uk/config.h>
 #include <uk/sched.h>
 #include <uk/plat/console.h>
+#include <uk/print.h>
 #if CONFIG_LWIP_SOCKET
 #include <lwip/sockets.h>
 #else
@@ -78,6 +79,13 @@ int select(int nfds, fd_set *readfds __unused, fd_set *writefds __unused,
 	return -1;
 }
 #endif /* !CONFIG_LWIP_SOCKET */
+
+int eventfd(unsigned int initval, int flags)
+{
+	WARN_STUBBED();
+	errno = ENOTSUP;
+	return -1;
+}
 
 char *realpath(const char *restrict file_name, char *restrict resolved_name)
 {

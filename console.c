@@ -38,6 +38,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <uk/essentials.h>
+#include <uk/print.h>
 
 int isatty(int fd)
 {
@@ -62,4 +63,11 @@ char *ttyname(int fd __unused)
 char *ctermid(char *s __unused)
 {
 	return 0;
+}
+
+int grantpt(int fd)
+{
+	WARN_STUBBED();
+	errno = ENOTSUP;
+	return -1;
 }
