@@ -37,6 +37,7 @@
 
 /* Use Unikraft type definitions */
 #include <uk/_types.h>
+#include <stdint.h>
 
 /* Provide _CLOCK_T_ */
 #define _CLOCK_T_ long /* clock() */
