@@ -30,16 +30,43 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  */
-#ifndef __SYS_SYSCALL_H__
-#define __SYS_SYSCALL_H__
 
 #include <uk/config.h>
-
-long syscall(long num, ...);
-
 #if CONFIG_LIBSYSCALL_SHIM
-/* Provide __NR_syscallname variants */
-#include <uk/bits/syscall_nrs2.h>
-#endif /* CONFIG_LIBSYSCALL_SHIM */
+#include <stdarg.h>
+#include <uk/syscall.h>
 
-#endif /* __SYS_SYSCALL_H__ */
+long syscall(long num, ...)
+{
+	va_list va;
+	long arg[6];
+
+	va_start(va, num);
+	arg[0] = va_arg(va, long);
+	arg[1] = va_arg(va, long);
+	arg[2] = va_arg(va, long);
+	arg[3] = va_arg(va, long);
+	arg[4] = va_arg(va, long);
+	arg[5] = va_arg(va, long);
+	va_end(va);
+
+	return uk_syscall(num,
+			  arg[0],
+			  arg[1],
+			  arg[2],
+			  arg[3],
+			  arg[4],
+			  arg[5]);
+}
+
+#else
+#include <errno.h>
+#include <uk/print.h>
+#include <uk/essentials.h>
+
+long syscall(long num __maybe_unused, ...)
+{
+	uk_pr_err("No such system call %lu\n", num);
+	return -ENOSYS;
+}
+#endif /* CONFIG_LIBSYSCALL_SHIM */
