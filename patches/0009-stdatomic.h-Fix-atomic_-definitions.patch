@@ -34,7 +34,7 @@ index 09c0cf7..daa1969 100644
 +	__auto_type __atomic_compare_exchange_ptr = (object);				\
 +	__typeof__ (*__atomic_compare_exchange_ptr) __atomic_compare_exchange_tmp 	\
 +	= (desired);									\
-+	__atomic_compare_exchange (__atomic_compare_exchange_ptr, (expeced),		\
++	__atomic_compare_exchange (__atomic_compare_exchange_ptr, (expected),		\
 +		&__atomic_compare_exchange_tmp,						\
 +		0, (success), (failure));						\
 +  })
