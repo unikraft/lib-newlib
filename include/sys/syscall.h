@@ -38,7 +38,8 @@
 long syscall(long num, ...);
 
 #if CONFIG_LIBSYSCALL_SHIM
-/* Provide __NR_syscallname variants */
+/* Provide SYS_syscallname and __NR_syscallname variants */
+#include <uk/bits/syscall_nrs.h>
 #include <uk/bits/syscall_nrs2.h>
 #endif /* CONFIG_LIBSYSCALL_SHIM */
 
