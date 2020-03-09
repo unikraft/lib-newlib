@@ -1007,6 +1007,7 @@ LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/math/w_tgamma.c
 ################################################################################
 # Newlib/libm code -- common
 ################################################################################
+LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/lroundl.c
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/llroundl.c
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/logl.c
 LIBNEWLIBM_SRCS-y += $(LIBNEWLIB_LIBM)/common/expl.c
