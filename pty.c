@@ -55,3 +55,20 @@ pid_t forkpty(int *amaster __unused, char *name __unused,
 	errno = ENOENT;
 	return -1;
 }
+
+char *ptsname(int fd __unused)
+{
+	errno = ENOTTY;
+	return NULL;
+}
+
+int ttyname_r(int fd __unused, char *buf __unused, size_t buflen __unused)
+{
+	errno = ENOTTY;
+	return -1;
+}
+
+void cfmakeraw(struct termios *termios_p)
+{
+
+}
