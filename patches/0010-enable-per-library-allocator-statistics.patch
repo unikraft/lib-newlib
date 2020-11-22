@@ -1,0 +1,260 @@
+From: Simon Kuenzer <simon.kuenzer@neclab.eu>
+Subject: Enable per-library allocator statistics
+
+Instruments the library so that per-library allocator statistics are
+possible. We make sure that code that uses `malloc()`, `free()`, and
+company will resolve `uk_alloc_get_default()` within their compilation
+scope so that the individual wrapper allocators can be used.
+For this purpose, we declare the allocator functions as `static inline`
+within the corresponding headers (like `<stdlib.h>`). Since the libc
+headers are modified, we apply the new behavior only when
+`CONFIG_LIBUKALLOC_IFSTATS` is switched on.
+
+Signed-off-by: Simon Kuenzer <simon.kuenzer@neclab.eu>
+---
+diff -urNp a/newlib/libc/include/malloc.h b/newlib/libc/include/malloc.h
+--- a/newlib/libc/include/malloc.h	2020-11-18 11:15:46.000000000 +0100
++++ b/newlib/libc/include/malloc.h	2020-11-18 16:17:11.000000000 +0100
+@@ -11,6 +11,12 @@
+ 
+ /* include any machine-specific extensions */
+ #include <machine/malloc.h>
++#ifdef __Unikraft__
++#include <uk/config.h>
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#include <uk/alloc.h>
++#endif
++#endif
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -34,7 +38,17 @@ struct mallinfo {
+ 
+ /* The routines.  */
+ 
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_MALLOC__
++#define __UK_HAVE_MALLOC__
++static inline void *malloc(size_t size)
++{
++	return uk_malloc(uk_alloc_get_default(), size);
++}
++#endif /* __UK_HAVE_MALLOC__ */
++#else
+ extern _PTR malloc _PARAMS ((size_t));
++#endif
+ #ifdef __CYGWIN__
+ #undef _malloc_r
+ #define _malloc_r(r, s) malloc (s)
+@@ -42,7 +56,17 @@ extern _PTR malloc _PARAMS ((size_t));
+ extern _PTR _malloc_r _PARAMS ((struct _reent *, size_t));
+ #endif
+ 
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_FREE__
++#define __UK_HAVE_FREE__
++static inline void free(void *ptr)
++{
++	return uk_free(uk_alloc_get_default(), ptr);
++}
++#endif /* __UK_HAVE_FREE__ */
++#else
+ extern _VOID free _PARAMS ((_PTR));
++#endif
+ #ifdef __CYGWIN__
+ #undef _free_r
+ #define _free_r(r, p) free (p)
+@@ -50,7 +74,17 @@ extern _VOID free _PARAMS ((_PTR));
+ extern _VOID _free_r _PARAMS ((struct _reent *, _PTR));
+ #endif
+ 
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_REALLOC__
++#define __UK_HAVE_REALLOC__
++static inline void *realloc(void *ptr, size_t size)
++{
++	return uk_realloc(uk_alloc_get_default(), ptr, size);
++}
++#endif /* __UK_HAVE_REALLOC__ */
++#else
+ extern _PTR realloc _PARAMS ((_PTR, size_t));
++#endif
+ #ifdef __CYGWIN__
+ #undef _realloc_r
+ #define _realloc_r(r, p, s) realloc (p, s)
+@@ -58,7 +92,17 @@ extern _PTR realloc _PARAMS ((_PTR, size
+ extern _PTR _realloc_r _PARAMS ((struct _reent *, _PTR, size_t));
+ #endif
+ 
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_CALLOC__
++#define __UK_HAVE_CALLOC__
++static inline void *calloc(size_t nmemb, size_t size)
++{
++	return uk_calloc(uk_alloc_get_default(), nmemb, size);
++}
++#endif /* __UK_HAVE_CALLOC__ */
++#else
+ extern _PTR calloc _PARAMS ((size_t, size_t));
++#endif
+ #ifdef __CYGWIN__
+ #undef _calloc_r
+ #define _calloc_r(r, s1, s2) calloc (s1, s2);
+@@ -66,7 +110,17 @@ extern _PTR calloc _PARAMS ((size_t, siz
+ extern _PTR _calloc_r _PARAMS ((struct _reent *, size_t, size_t));
+ #endif
+ 
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_MEMALIGN__
++#define __UK_HAVE_MEMALIGN__
++static inline void *memalign(size_t align, size_t size)
++{
++	return uk_memalign(uk_alloc_get_default(), align, size);
++}
++#endif /* __UK_HAVE_MEMALIGN__ */
++#else
+ extern _PTR memalign _PARAMS ((size_t, size_t));
++#endif
+ #ifdef __CYGWIN__
+ #undef _memalign_r
+ #define _memalign_r(r, s1, s2) memalign (s1, s2);
+diff -urNp a/newlib/libc/include/stdlib.h b/newlib/libc/include/stdlib.h
+--- a/newlib/libc/include/stdlib.h	2020-11-18 11:15:47.000000000 +0100
++++ b/newlib/libc/include/stdlib.h	2020-11-18 16:27:19.000000000 +0100
+@@ -30,6 +30,13 @@
+ #include <xlocale.h>
+ #endif
+ 
++#ifdef __Unikraft__
++#include <uk/config.h>
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#include <uk/alloc.h>
++#endif
++#endif
++
+ _BEGIN_STD_C
+ 
+ typedef struct 
+@@ -87,10 +92,30 @@ _PTR	_EXFUN(bsearch,(const _PTR __key,
+ 		       size_t __nmemb,
+ 		       size_t __size,
+ 		       __compar_fn_t _compar));
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_CALLOC__
++#define __UK_HAVE_CALLOC__
++static inline void *calloc(size_t nmemb, size_t size)
++{
++	return uk_calloc(uk_alloc_get_default(), nmemb, size);
++}
++#endif /* __UK_HAVE_CALLOC__ */
++#else
+ _PTR	_EXFUN_NOTHROW(calloc,(size_t __nmemb, size_t __size));
++#endif
+ div_t	_EXFUN(div,(int __numer, int __denom));
+ _VOID	_EXFUN(exit,(int __status) _ATTRIBUTE ((__noreturn__)));
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_FREE__
++#define __UK_HAVE_FREE__
++static inline void free(void *ptr)
++{
++	return uk_free(uk_alloc_get_default(), ptr);
++}
++#endif /* __UK_HAVE_FREE__ */
++#else
+ _VOID	_EXFUN_NOTHROW(free,(_PTR));
++#endif
+ char *  _EXFUN(getenv,(const char *__string));
+ char *	_EXFUN(_getenv_r,(struct _reent *, const char *__string));
+ char *	_EXFUN(_findenv,(_CONST char *, int *));
+@@ -101,7 +126,17 @@ int	_EXFUN(getsubopt,(char **, char * co
+ #endif
+ long	_EXFUN(labs,(long));
+ ldiv_t	_EXFUN(ldiv,(long __numer, long __denom));
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_MALLOC__
++#define __UK_HAVE_MALLOC__
++static inline void *malloc(size_t size)
++{
++	return uk_malloc(uk_alloc_get_default(), size);
++}
++#endif /* __UK_HAVE_MALLOC__ */
++#else
+ _PTR	_EXFUN_NOTHROW(malloc,(size_t __size));
++#endif
+ int	_EXFUN(mblen,(const char *, size_t));
+ int	_EXFUN(_mblen_r,(struct _reent *, const char *, size_t, _mbstate_t *));
+ int	_EXFUN(mbtowc,(wchar_t *__restrict, const char *__restrict, size_t));
+@@ -138,7 +173,17 @@ int	_EXFUN(_mkstemps_r, (struct _reent *
+ char *	_EXFUN(_mktemp_r, (struct _reent *, char *) _ATTRIBUTE ((__deprecated__("the use of `mktemp' is dangerous; use `mkstemp' instead"))));
+ _VOID	_EXFUN(qsort,(_PTR __base, size_t __nmemb, size_t __size, __compar_fn_t _compar));
+ int	_EXFUN(rand,(_VOID));
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_REALLOC__
++#define __UK_HAVE_REALLOC__
++static inline void *realloc(void *ptr, size_t size)
++{
++	return uk_realloc(uk_alloc_get_default(), ptr, size);
++}
++#endif /* __UK_HAVE_REALLOC__ */
++#else
+ _PTR	_EXFUN_NOTHROW(realloc,(_PTR __r, size_t __size));
++#endif
+ #if __BSD_VISIBLE
+ void	*reallocarray(void *, size_t, size_t) __result_use_check __alloc_size(2)
+ 	    __alloc_size(3);
+@@ -282,8 +327,19 @@ int	_EXFUN(_unsetenv_r,(struct _reent *,
+ #endif /* !__CYGWIN__ */
+ 
+ #if __POSIX_VISIBLE >= 200112
++#if CONFIG_LIBUKALLOC_IFSTATS_PERLIB
++#ifndef __UK_HAVE_POSIX_MEMALIGN__
++#define __UK_HAVE_POSIX_MEMALIGN__
++static inline int posix_memalign(void **memptr, size_t align, size_t size)
++{
++	return uk_posix_memalign(uk_alloc_get_default(),
++				 memptr, align, size);
++}
++#endif /* __UK_HAVE_POSIX_MEMALIGN__ */
++#else
+ int _EXFUN(__nonnull (1) posix_memalign,(void **, size_t, size_t));
+ #endif
++#endif
+ 
+ char *	_EXFUN(_dtoa_r,(struct _reent *, double, int, int, int *, int*, char**));
+ #ifndef __CYGWIN__
+diff -urNp a/newlib/libc/stdlib/__atexit.c b/newlib/libc/stdlib/__atexit.c
+--- a/newlib/libc/stdlib/__atexit.c	2020-11-18 11:16:14.000000000 +0100
++++ b/newlib/libc/stdlib/__atexit.c	2020-11-18 16:33:40.000000000 +0100
+@@ -37,9 +37,14 @@
+ #include <reent.h>
+ #include <sys/lock.h>
+ #include "atexit.h"
++#ifdef __Unikraft__
++#include <uk/config.h>
++#endif
+ 
++#if !CONFIG_LIBUKALLOC_IFSTATS_PERLIB
+ /* Make this a weak reference to avoid pulling in malloc.  */
+ void * malloc(size_t) _ATTRIBUTE((__weak__));
++#endif
+ 
+ #ifdef _LITE_EXIT
+ /* As __call_exitprocs is weak reference in lite exit, make a
+diff -urNp a/newlib/libc/stdlib/__call_atexit.c b/newlib/libc/stdlib/__call_atexit.c
+--- a/newlib/libc/stdlib/__call_atexit.c	2020-11-18 11:16:14.000000000 +0100
++++ b/newlib/libc/stdlib/__call_atexit.c	2020-11-18 16:33:51.000000000 +0100
+@@ -7,9 +7,14 @@
+ #include <reent.h>
+ #include <sys/lock.h>
+ #include "atexit.h"
++#ifdef __Unikraft__
++#include <uk/config.h>
++#endif
+ 
++#if !CONFIG_LIBUKALLOC_IFSTATS_PERLIB
+ /* Make this a weak reference to avoid pulling in free.  */
+ void free(void *) _ATTRIBUTE((__weak__));
++#endif
+ 
+ #ifndef __SINGLE_THREAD__
+ __LOCK_INIT_RECURSIVE(, __atexit_recursive_mutex);
