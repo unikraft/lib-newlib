@@ -73,7 +73,7 @@
 #endif
 
 #define PATH_MAX        1024
-
+#define NAME_MAX        255
 /* The maximum number of repeated occurrences of a regular expression
  * permitted when using the interval notation `\{M,N\}'.
  */
