@@ -136,7 +136,6 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/resource.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/pty.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/locale.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/dev.c
-LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/signal.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/link.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/mntent.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/syscall.c
@@ -415,8 +414,6 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/search/bsd_qsort_r.c
 # Newlib/libc code -- signal
 ################################################################################
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/signal/psignal.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/signal/raise.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/signal/signal.c
 
 ################################################################################
 # Newlib/libc code -- stdio

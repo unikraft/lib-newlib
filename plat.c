@@ -47,14 +47,6 @@ int getentropy(void *buf __unused, size_t buflen __unused)
 	return -1;
 }
 
-int sigprocmask(int how __unused, const sigset_t *set __unused,
-		sigset_t *oldset __unused)
-{
-	/* TODO: implement. */
-	errno = ENOTSUP;
-	return -1;
-}
-
 #include <uk/plat/bootstrap.h>
 
 void abort(void)
