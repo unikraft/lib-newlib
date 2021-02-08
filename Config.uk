@@ -11,6 +11,7 @@ menuconfig LIBNEWLIBC
 	select LIBUKALLOC
 	select LIBUKTIME
 	select LIBVFSCORE
+	select LIBUKSIGNAL
 	select LIBPOSIX_PROCESS
 	select LIBPOSIX_USER
 	select FPSIMD if ARCH_ARM_64
