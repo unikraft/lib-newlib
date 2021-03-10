@@ -35,7 +35,15 @@
 
 #include <uk/config.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 long syscall(long num, ...);
+
+#ifdef __cplusplus
+}
+#endif
 
 #if CONFIG_LIBSYSCALL_SHIM
 /* Provide SYS_syscallname and __NR_syscallname variants */
