@@ -849,7 +849,6 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/mktime.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/month_lengths.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/strftime.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/strptime.c
-LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/time.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/tzcalc_limits.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/tzlock.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/time/tzset.c
