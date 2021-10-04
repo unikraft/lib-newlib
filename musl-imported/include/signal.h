@@ -65,11 +65,33 @@ typedef __sigset_t sigset_t;
 
 #define NSIG _NSIG
 
+/* XXX: not used - defined just for newlib */
+union sigval {
+	int    sival_int;	/* Integer signal value */
+	void  *sival_ptr;	/* Pointer signal value */
+};
+
 typedef struct {
 	int          si_signo;    /* Signal number */
 	int          si_code;     /* Cause of the signal */
 	pid_t	       si_pid;	    /* Sending process ID */
+	union sigval si_value;    /* Signal value */
+
+	union {
+		struct {
+			void *si_addr;
+			short si_addr_lsb;
+			union {
+				struct {
+					void *si_lower;
+					void *si_upper;
+				} __addr_bnd;
+				unsigned si_pkey;
+			} __first;
+		} __sigfault;
+	} __si_fields;
 } siginfo_t;
+#define si_addr    __si_fields.__sigfault.si_addr
 
 struct sigaction {
 	union {
@@ -119,17 +141,17 @@ int sigismember(const sigset_t *set, int signo);
 int siginterrupt(int sig, int flag);
 void psignal(int sig, const char *s);
 
-/* TODO: not used - defined just for newlib */
-union sigval {
-	int    sival_int;	/* Integer signal value */
-	void  *sival_ptr;	/* Pointer signal value */
-};
-
 struct sigevent {
 	int              sigev_notify;	/* Notification type */
 	int              sigev_signo;	/* Signal number */
 	union sigval     sigev_value;	/* Signal value */
 };
+
+/*
+ * Possible values for ss_flags in stack_t below.
+ */
+#define	SS_ONSTACK	0x1
+#define	SS_DISABLE	0x2
 
 /* TODO: not used - defined just for v8 */
 typedef struct sigaltstack {
@@ -137,6 +159,8 @@ typedef struct sigaltstack {
 	int ss_flags;
 	size_t ss_size;
 } stack_t;
+
+int sigaltstack(const stack_t *ss, stack_t *old_ss);
 
 #ifdef __cplusplus
 }
