@@ -1,0 +1,45 @@
+From 9549fbd379c61d13ffcb4c842778022c0b019b0c Mon Sep 17 00:00:00 2001
+From: Cezar Craciunoiu <cezar.craciunoiu@gmail.com>
+Date: Sat, 30 Oct 2021 11:09:39 +0300
+Subject: [PATCH] Fix alloc_size warning when using gcc 11
+
+Using multiple `alloc_size` attributes gives a warning in gcc 11.
+The fix in this patch was taken from newer versions of newlib.
+Multiple `alloc_size` calls are squished in a single one as
+per the documentation.
+
+Signed-off-by: Cezar Craciunoiu <cezar.craciunoiu@gmail.com>
+---
+ newlib/libc/include/stdlib.h    | 3 +--
+ newlib/libc/include/sys/cdefs.h | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/newlib/libc/include/stdlib.h b/newlib/libc/include/stdlib.h
+index 968367f..a12005e 100644
+--- a/newlib/libc/include/stdlib.h
++++ b/newlib/libc/include/stdlib.h
+@@ -140,8 +140,7 @@ _VOID	_EXFUN(qsort,(_PTR __base, size_t __nmemb, size_t __size, __compar_fn_t _c
+ int	_EXFUN(rand,(_VOID));
+ _PTR	_EXFUN_NOTHROW(realloc,(_PTR __r, size_t __size));
+ #if __BSD_VISIBLE
+-void	*reallocarray(void *, size_t, size_t) __result_use_check __alloc_size(2)
+-	    __alloc_size(3);
++void	*reallocarray(void *, size_t, size_t) __result_use_check __alloc_size2(2, 3);
+ _PTR	_EXFUN(reallocf,(_PTR __r, size_t __size));
+ #endif
+ #if __BSD_VISIBLE || __XSI_VISIBLE >= 4
+diff --git a/newlib/libc/include/sys/cdefs.h b/newlib/libc/include/sys/cdefs.h
+index 8ce14b6..aff864b 100644
+--- a/newlib/libc/include/sys/cdefs.h
++++ b/newlib/libc/include/sys/cdefs.h
+@@ -259,6 +259,7 @@
+ #endif
+ #if __GNUC_PREREQ__(4, 3) || __has_attribute(__alloc_size__)
+ #define	__alloc_size(x)	__attribute__((__alloc_size__(x)))
++#define __alloc_size2(n, x)	__attribute__((__alloc_size__(n, x)))
+ #else
+ #define	__alloc_size(x)
+ #endif
+-- 
+2.32.0
+
