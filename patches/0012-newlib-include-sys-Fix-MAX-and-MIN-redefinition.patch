@@ -1,0 +1,30 @@
+From fcb74ab953ddaf786bec94c6fa1ab339e8d2d691 Mon Sep 17 00:00:00 2001
+From: Gabriel Mocanu <gabi.mocanu98@gmail.com>
+Date: Sat, 20 Nov 2021 11:10:12 +0200
+Subject: [PATCH 2/2] newlib/include/sys: Fix MAX and MIN redefinition
+
+Signed-off-by: Gabriel Mocanu <gabi.mocanu98@gmail.com>
+---
+ newlib/libc/include/sys/param.h | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/newlib/libc/include/sys/param.h b/newlib/libc/include/sys/param.h
+index 9a6f115..093f028 100644
+--- a/newlib/libc/include/sys/param.h
++++ b/newlib/libc/include/sys/param.h
+@@ -25,8 +25,12 @@
+ 
+ #define MAXPATHLEN PATH_MAX
+ 
++#ifndef MAX
+ #define MAX(a,b) ((a) > (b) ? (a) : (b))
++#endif
++#ifndef MIN
+ #define MIN(a,b) ((a) < (b) ? (a) : (b))
++#endif
+ 
+ #ifndef howmany
+ #define    howmany(x, y)   (((x)+((y)-1))/(y))
+-- 
+2.27.0
+
