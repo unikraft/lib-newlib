@@ -60,7 +60,10 @@ extern "C" {
 
 typedef int pid_t;
 typedef int sig_atomic_t;
-typedef unsigned long __sigset_t;
+#ifndef _SYS__SIGSET_H_
+#define _SYS__SIGSET_H_
+typedef struct { unsigned long __bits[128/sizeof(long)]; } __sigset_t;
+#endif /* !_SYS__SIGSET_H_ */
 typedef __sigset_t sigset_t;
 
 #define NSIG _NSIG
