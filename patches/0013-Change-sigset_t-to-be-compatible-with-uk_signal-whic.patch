@@ -1,0 +1,26 @@
+From cd56be1871262f6f56a2e0fb78a585da82a5d5e6 Mon Sep 17 00:00:00 2001
+From: Dragos Iulian Argint <dragosargint21@gmail.com>
+Date: Sun, 20 Feb 2022 00:30:10 +0200
+Subject: [PATCH] Change sigset_t to be compatible with uk_signal which uses
+ musl's type (i.e. sigset_t is no longer an unsigned long)
+
+Signed-off-by: Dragos Iulian Argint <dragosargint21@gmail.com>
+---
+ _sigset.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/newlib/libc/include/sys/_sigset.h b/newlib/libc/include/sys/_sigset.h
+index a9c0d2d..794381f 100644
+--- a/newlib/libc/include/sys/_sigset.h
++++ b/newlib/libc/include/sys/_sigset.h
+@@ -38,6 +38,6 @@
+ #ifndef _SYS__SIGSET_H_
+ #define	_SYS__SIGSET_H_
+ 
+-typedef unsigned long __sigset_t;
++typedef struct { unsigned long __bits[128/sizeof(long)]; } __sigset_t;
+ 
+ #endif /* !_SYS__SIGSET_H_ */
+-- 
+2.17.1
+
