@@ -1,0 +1,41 @@
+From c3737ee23f13b8cf453cf91c28be4c0e4a320970 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Eduard=20Vintil=C4=83?= <eduard.vintila47@gmail.com>
+Date: Thu, 21 Jul 2022 00:26:24 +0300
+Subject: [PATCH] Define llroundl for all targets
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The RISC-V ABI spec states that sizeof(long double) is equal to 16,
+hence on such targets a double is not as wide as a long double.
+
+Newlibc's implementation for llroundl is just a wrapper for llround, and
+is not defined at all for targets where the size of the two types differ.
+Musl wraps llround using llroundl regardless of the difference between double and long double,
+so we remove the compile-time check such that llroundl is defined for all targets in newlibc as well.
+
+Signed-off-by: Eduard Vintilă <eduard.vintila47@gmail.com>
+---
+ newlib/libm/common/llroundl.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/newlib/libm/common/llroundl.c b/newlib/libm/common/llroundl.c
+index d663226..1e1fda4 100644
+--- a/newlib/libm/common/llroundl.c
++++ b/newlib/libm/common/llroundl.c
+@@ -31,12 +31,9 @@ POSSIBILITY OF SUCH DAMAGE.
+ #include <math.h>
+ #include "local.h"
+ 
+-/* On platforms where long double is as wide as double.  */
+-#ifdef _LDBL_EQ_DBL
+ long long int
+ llroundl (long double x)
+ {
+   return llround(x);
+ }
+-#endif
+ 
+-- 
+2.37.1
+

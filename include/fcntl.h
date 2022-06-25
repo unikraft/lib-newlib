@@ -6,7 +6,7 @@
 
 #include <uk/config.h>
 
-#if (defined CONFIG_ARCH_X86_64)
+#if ((defined CONFIG_ARCH_X86_64) || (defined CONFIG_ARCH_RISCV_64))
 #define O_NOFOLLOW  0400000
 #define O_DIRECTORY 0200000
 #define O_CLOEXEC  02000000
