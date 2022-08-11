@@ -36,7 +36,16 @@
 /* Use newlib definitions */
 #include_next <sys/unistd.h>
 
-/* Use Unikraft user related definitions */
-#include <uk/user.h>
+#ifdef _GNU_SOURCE
+#define __NEED_uid_t
+#define __NEED_gid_t
+#include <sys/types.h>
+
+int getresuid(uid_t *ruid, uid_t *euid, uid_t *suid);
+int setresuid(uid_t ruid, uid_t euid, uid_t suid);
+
+int getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid);
+int setresgid(gid_t rgid, gid_t egid, gid_t sgid);
+#endif /* _GNU_SOURCE */
 
 #endif /* __NEWLIB_GLUE__SYS_UNISTD_H__ */
