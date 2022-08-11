@@ -34,56 +34,7 @@
  */
 
 #include <uk/config.h>
-#include <uk/sched.h>
-#include <uk/plat/console.h>
-#include <uk/print.h>
-#if CONFIG_LWIP_SOCKET
-#include <lwip/sockets.h>
-#else
-#include <poll.h>
-#include <sys/select.h>
-#endif
-#include <sys/stat.h>
-#include <errno.h>
-#undef errno
 #include <stdlib.h>
-extern int errno;
-
-#define STDIN_FILENO    0       /* standard input file descriptor */
-#define STDOUT_FILENO   1       /* standard output file descriptor */
-#define STDERR_FILENO   2       /* standard error file descriptor */
-
-#if !CONFIG_LWIP_SOCKET
-int poll(struct pollfd _pfd[] __unused, nfds_t _nfds __unused,
-		int _timeout __unused)
-{
-	errno = ENOTSUP;
-	return -1;
-}
-
-int select(int nfds, fd_set *readfds __unused, fd_set *writefds __unused,
-		fd_set *exceptfds __unused, struct timeval *timeout)
-{
-	uint64_t nsecs;
-
-	if (nfds == 0) {
-		nsecs = timeout->tv_sec * 1000000000;
-		nsecs += timeout->tv_usec * 1000;
-		uk_sched_thread_sleep(nsecs);
-		return 0;
-	}
-
-	errno = ENOTSUP;
-	return -1;
-}
-#endif /* !CONFIG_LWIP_SOCKET */
-
-int eventfd(unsigned int initval, int flags)
-{
-	WARN_STUBBED();
-	errno = ENOTSUP;
-	return -1;
-}
 
 char *realpath(const char *restrict file_name, char *restrict resolved_name)
 {
