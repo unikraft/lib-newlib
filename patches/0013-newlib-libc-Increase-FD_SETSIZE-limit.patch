@@ -1,0 +1,26 @@
+From c5ce452eceb022923f409b3156723e18f49253b9 Mon Sep 17 00:00:00 2001
+From: Cezar Craciunoiu <cezar.craciunoiu@gmail.com>
+Date: Thu, 29 Sep 2022 17:21:45 +0300
+Subject: [PATCH] newlib/libc: Increase 'FD_SETSIZE' limit
+
+Signed-off-by: Cezar Craciunoiu <cezar.craciunoiu@gmail.com>
+---
+ newlib/libc/include/sys/select.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/newlib/libc/include/sys/select.h b/newlib/libc/include/sys/select.h
+index f5dc586..e30e1d2 100644
+--- a/newlib/libc/include/sys/select.h
++++ b/newlib/libc/include/sys/select.h
+@@ -39,7 +39,7 @@ typedef	__sigset_t	sigset_t;
+  * should be >= NOFILE (param.h).
+  */
+ #  ifndef	FD_SETSIZE
+-#	define	FD_SETSIZE	64
++#	define	FD_SETSIZE	8192
+ #  endif
+ 
+ typedef	unsigned long	fd_mask;
+-- 
+2.34.1
+
