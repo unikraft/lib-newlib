@@ -1,19 +1,6 @@
-From 7d668a38739f734ed1edc6aab925baf9f19f5ca4 Mon Sep 17 00:00:00 2001
-From: Costin Lupu <costin.lup@gmail.com>
-Date: Fri, 16 Aug 2019 20:19:14 +0200
-Subject: [PATCH] Add si_addr field for siginfo_t and use __rtems__
- declarations
-
-Signed-off-by: Costin Lupu <costin.lupu@cs.pub.ro>
----
- newlib/libc/include/sys/signal.h | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/newlib/libc/include/sys/signal.h b/newlib/libc/include/sys/signal.h
-index ab35718..f87ed6c 100644
---- a/newlib/libc/include/sys/signal.h
-+++ b/newlib/libc/include/sys/signal.h
-@@ -69,10 +69,27 @@ typedef struct {
+--- a/newlib/libc/include/sys/signal.h  2022-10-23 15:34:20.636665821 +0200
++++ b/newlib/libc/include/sys/signal.h  2022-10-23 17:01:45.073247954 +0200
+@@ -69,10 +69,27 @@
    int          si_signo;    /* Signal number */
    int          si_code;     /* Cause of the signal */
    union sigval si_value;    /* Signal value */
@@ -41,7 +28,3 @@ index ab35718..f87ed6c 100644
 +#if defined(__rtems__) || defined(__Unikraft__)
  
  /*  3.3.8 Synchronously Accept a Signal, P1003.1b-1993, p. 76 */
- 
--- 
-2.20.1
-

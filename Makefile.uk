@@ -47,10 +47,10 @@ $(eval $(call addlib_s,libnewlibglue,$(CONFIG_LIBNEWLIBC)))
 ################################################################################
 # Sources
 ################################################################################
-LIBNEWLIB_VERSION=2.5.0.20170922
+LIBNEWLIB_VERSION=4.0.0
 LIBNEWLIB_URL=http://sourceware.org/pub/newlib/newlib-$(LIBNEWLIB_VERSION).tar.gz
 LIBNEWLIB_PATCHDIR=$(LIBNEWLIBC_BASE)/patches
-LIBNEWLIBC_ORIGIN_SHA256=16ccacbb9155b89a8333da057bfd2952d334795a38dfffcef6a4d83ae12e7275
+LIBNEWLIBC_ORIGIN_SHA256=71ffb00979ce978216debb2b037dc8b1b3d780ebc2e0fa0e2757188704291052
 
 $(eval $(call fetch,libnewlibc,$(LIBNEWLIB_URL)))
 $(eval $(call patch,libnewlibc,$(LIBNEWLIB_PATCHDIR),newlib-$(LIBNEWLIB_VERSION)))

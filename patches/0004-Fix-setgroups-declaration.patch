@@ -14,15 +14,15 @@ diff --git a/newlib/libc/include/sys/unistd.h b/newlib/libc/include/sys/unistd.h
 index 75f8a51..bcb2f69 100644
 --- a/newlib/libc/include/sys/unistd.h
 +++ b/newlib/libc/include/sys/unistd.h
-@@ -188,7 +188,7 @@ int     _EXFUN(seteuid, (uid_t __uid ));
- int     _EXFUN(setgid, (gid_t __gid ));
+@@ -206,7 +206,7 @@
+ int     setgid (gid_t __gid);
  #endif
  #if __BSD_VISIBLE
--int	_EXFUN(setgroups, (int ngroups, const gid_t *grouplist ));
-+int	_EXFUN(setgroups, (size_t ngroups, const gid_t *grouplist ));
+-int    setgroups (int ngroups, const gid_t *grouplist);
++int    setgroups (size_t ngroups, const gid_t *grouplist);
  #endif
  #if __BSD_VISIBLE || (__XSI_VISIBLE && __XSI_VISIBLE < 500)
- int	_EXFUN(sethostname, (const char *, size_t));
+ int    sethostname (const char *, size_t);
 -- 
 2.11.0
 
