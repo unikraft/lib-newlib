@@ -3,7 +3,7 @@
 
 #define __NEED_time_t
 #define __NEED_struct_timespec
-#include <uk/time_types.h>
+#include <time_types.h>
 
 /* newlib guards */
 #define __time_t_defined
