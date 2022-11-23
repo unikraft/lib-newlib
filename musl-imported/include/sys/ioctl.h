@@ -140,7 +140,7 @@ struct winsize {
 #define SIOCDEVPRIVATE     0x89F0
 #define SIOCPROTOPRIVATE   0x89E0
 
-int ioctl (int, int, ...);
+int ioctl (int, unsigned long int, ...);
 
 #ifdef __cplusplus
 }

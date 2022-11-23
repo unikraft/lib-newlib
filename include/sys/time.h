@@ -1,40 +1,70 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
-/*
- * Authors: Costin Lupu <costin.lupu@cs.pub.ro>
- *
- * Copyright (c) 2019, University Politehnica of Bucharest. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holder nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
+#ifndef _SYS_TIME_H_
+#define _SYS_TIME_H_
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#ifndef __NEWLIB_GLUE_SYS_TIME_H__
-#define __NEWLIB_GLUE_SYS_TIME_H__
+#include <uk/config.h>
 
-#include "_ansi.h"
+#define __NEED_time_t
+#define __NEED_suseconds_t
+#define __NEED_struct_timeval
+#include <time_types.h>
 
-#include <sys/reent.h>
+#ifndef CONFIG_LIBNOLIBC
+/* Allow custom definitions */
+#include_next <sys/time.h>
+#endif
 
-#endif /* __NEWLIB_GLUE_SYS_TIME_H__ */
+int gettimeofday (struct timeval *__restrict, void *__restrict);
+
+#define ITIMER_REAL    0
+#define ITIMER_VIRTUAL 1
+#define ITIMER_PROF    2
+
+struct itimerval {
+	struct timeval it_interval;
+	struct timeval it_value;
+};
+
+int getitimer (int, struct itimerval *);
+int setitimer (int, const struct itimerval *__restrict, struct itimerval *__restrict);
+int utimes (const char *, const struct timeval *);
+
+#if defined(_GNU_SOURCE) || defined(_BSD_SOURCE)
+struct timezone {
+	int tz_minuteswest;
+	int tz_dsttime;
+};
+int futimes(int, const struct timeval *);
+int futimesat(int, const char *, const struct timeval *);
+int lutimes(const char *, const struct timeval *);
+int settimeofday(const struct timeval *, const struct timezone *);
+int adjtime (const struct timeval *, struct timeval *);
+#define timerisset(t) ((t)->tv_sec || (t)->tv_usec)
+#define timerclear(t) ((t)->tv_sec = (t)->tv_usec = 0)
+#define timercmp(s,t,op) ((s)->tv_sec == (t)->tv_sec ? \
+	(s)->tv_usec op (t)->tv_usec : (s)->tv_sec op (t)->tv_sec)
+#define timeradd(s,t,a) (void) ( (a)->tv_sec = (s)->tv_sec + (t)->tv_sec, \
+	((a)->tv_usec = (s)->tv_usec + (t)->tv_usec) >= 1000000 && \
+	((a)->tv_usec -= 1000000, (a)->tv_sec++) )
+#define timersub(s,t,a) (void) ( (a)->tv_sec = (s)->tv_sec - (t)->tv_sec, \
+	((a)->tv_usec = (s)->tv_usec - (t)->tv_usec) < 0 && \
+	((a)->tv_usec += 1000000, (a)->tv_sec--) )
+#endif
+
+#if defined(_GNU_SOURCE)
+#define TIMEVAL_TO_TIMESPEC(tv, ts) ( \
+	(ts)->tv_sec = (tv)->tv_sec, \
+	(ts)->tv_nsec = (tv)->tv_usec * 1000, \
+	(void)0 )
+#define TIMESPEC_TO_TIMEVAL(tv, ts) ( \
+	(tv)->tv_sec = (ts)->tv_sec, \
+	(tv)->tv_usec = (ts)->tv_nsec / 1000, \
+	(void)0 )
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+#endif
