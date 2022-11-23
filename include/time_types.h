@@ -1,8 +1,8 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 /*
- * Authors: Costin Lupu <costin.lupu@cs.pub.ro>
+ * Authors: Florian Schmidt <florian.schmidt@neclab.eu>
  *
- * Copyright (c) 2019, University Politehnica of Bucharest. All rights reserved.
+ * Copyright (c) 2018, NEC Labs Europe, NEC Corporation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,25 +30,56 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __NEWLIB_GLUE_UK__TYPES_H__
-#define __NEWLIB_GLUE_UK__TYPES_H__
+/* This header does by design not have include guards, so that it can be
+ * included from multiple files. The __NEED_x macros instead make sure that
+ * only those definitions are included that are required by that specific
+ * file, and only if they haven't been defined on a previous pass through
+ * this file.
+ */
+#ifndef __NEWLIB_TIME_TYPES__
+#define __NEWLIB_TIME_TYPES__
 
-/* Use Unikraft time definitions */
-#define __NEED_time_t
-#define __NEED_suseconds_t
-#define __NEED_struct_timeval
-#define __NEED_struct_timespec
-#define __NEED_timer_t
-#define __NEED_clockid_t
-#define __NEED_clock_t
-#include <time_types.h>
+#include <uk/arch/types.h>
 
-/* newlib guards */
-#define __time_t_defined
-#define _SUSECONDS_T_DECLARED
-#define _TIMEVAL_DEFINED
-#define	__timer_t_defined
-#define __clockid_t_defined
-#define __clock_t_defined
+#if (defined __NEED_time_t && !defined __DEFINED_time_t)
+typedef long time_t;
+#define __DEFINED_time_t
+#endif
 
-#endif /* __NEWLIB_GLUE_UK__TYPES_H__ */
+#if (defined __NEED_suseconds_t && !defined __DEFINED_suseconds_t)
+typedef long suseconds_t;
+#define __DEFINED_suseconds_t
+#endif
+
+#if (defined __NEED_struct_timeval && !defined __DEFINED_struct_timeval)
+struct timeval {
+	time_t      tv_sec;
+	suseconds_t tv_usec;
+};
+#define __DEFINED_struct_timeval
+#endif
+
+#if (defined __NEED_struct_timespec && !defined __DEFINED_struct_timespec)
+struct timespec {
+	time_t tv_sec;
+	long   tv_nsec;
+};
+#define __DEFINED_struct_timespec
+#endif
+
+#if defined(__NEED_timer_t) && !defined(__DEFINED_timer_t)
+typedef void *timer_t;
+#define __DEFINED_timer_t
+#endif
+
+#if (defined __NEED_clockid_t && !defined __DEFINED_clockid_t)
+typedef int clockid_t;
+#define __DEFINED_clockid_t
+#endif
+
+#if defined(__NEED_clock_t) && !defined(__DEFINED_clock_t)
+typedef long clock_t;
+#define __DEFINED_clock_t
+#endif
+
+#endif /* __NEWLIB_TIME_TYPES__ */

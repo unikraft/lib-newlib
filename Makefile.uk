@@ -30,6 +30,14 @@
 #  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 #  POSSIBILITY OF SUCH DAMAGE.
 #
+################################################################################
+# This will reserve space within `uk_tls` for a **pointer** to struct _reent
+# Please refer to ./arch/Makefile.rules for more details.
+# In our case, 16 bytes is sufficient to also cover for the minimum size required by ARM.
+################################################################################
+$(eval $(call ukarch_tls_tcb_reserve,16))
+
+
 
 ################################################################################
 # Library registration
@@ -82,7 +90,7 @@ LIBNEWLIBM_CXXINCLUDES += -I$(LIBNEWLIB_LIBM)/common
 # Global flags
 ################################################################################
 LIBNEWLIB_GLOBAL_FLAGS-y  += -DMISSING_SYSCALL_NAMES -DMALLOC_PROVIDED
-LIBNEWLIB_GLOBAL_FLAGS-y  += -D_POSIX_REALTIME_SIGNALS
+#LIBNEWLIB_GLOBAL_FLAGS-y  += -D_POSIX_REALTIME_SIGNALS
 LIBNEWLIB_GLOBAL_FLAGS-$(CONFIG_LIBNEWLIBC_WANT_IO_C99_FORMATS) += -D_WANT_IO_C99_FORMATS
 LIBNEWLIB_GLOBAL_FLAGS-$(CONFIG_LIBNEWLIBC_LINUX_ERRNO_EXTENSIONS) += -D__LINUX_ERRNO_EXTENSIONS__
 ifeq ($(CONFIG_ARCH_ARM_64),y)
@@ -143,6 +151,8 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcsetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcgetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/math/sincosl.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/exit/assert.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/__uk_init_tls.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/fork.c
 
 ifeq ($(CONFIG_LIBNEWLIBC_CRYPT),y)
 LIBNEWLIBGLUE_CFLAGS-y   += -Wno-missing-braces -Wno-sign-compare -Wno-char-subscripts

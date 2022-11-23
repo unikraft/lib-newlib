@@ -1,8 +1,8 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 /*
- * Authors: Costin Lupu <costin.lupu@cs.pub.ro>
+ * Authors: Eduard Vintilă <eduard.vintila47@gmail.com>
  *
- * Copyright (c) 2019, University Politehnica of Bucharest. All rights reserved.
+ * Copyright (c) 2022, University of Bucharest. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,25 +30,64 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __NEWLIB_GLUE_UK__TYPES_H__
-#define __NEWLIB_GLUE_UK__TYPES_H__
+#include <uk/tcb_impl.h>
+#include <uk/plat/tls.h>
+#include <uk/arch/tls.h>
+#include <uk/alloc.h>
+#include <uk/assert.h>
+#include <sys/reent.h>
+#include <string.h>
 
-/* Use Unikraft time definitions */
-#define __NEED_time_t
-#define __NEED_suseconds_t
-#define __NEED_struct_timeval
-#define __NEED_struct_timespec
-#define __NEED_timer_t
-#define __NEED_clockid_t
-#define __NEED_clock_t
-#include <time_types.h>
+/* Needed by newlib. Retrieves the reentrant structure of the current thread.*/
+struct _reent *__getreent(void)
+{
+	void *tcb = ukarch_tls_tcb_get(ukplat_tlsp_get());
+	struct _reent **reent = (struct _reent **) tcb;
 
-/* newlib guards */
-#define __time_t_defined
-#define _SUSECONDS_T_DECLARED
-#define _TIMEVAL_DEFINED
-#define	__timer_t_defined
-#define __clockid_t_defined
-#define __clock_t_defined
+	if (reent && *reent)
+		return *reent;
 
-#endif /* __NEWLIB_GLUE_UK__TYPES_H__ */
+	return _impure_ptr;
+}
+
+int uk_thread_uktcb_init(struct uk_thread *thread, void *tcb)
+{
+	/* We already initialize the TCB in ukarch_tls_tcb_init() */
+	return 0;
+}
+
+void uk_thread_uktcb_fini(struct uk_thread *thread, void *tcb)
+{
+	struct _reent **reent = (struct _reent **)tcb;
+
+	uk_pr_debug("uk_thread_tcb_fini uk_thread %p, tcb %p\n", thread, tcb);
+	uk_free(uk_alloc_get_default(), *reent);
+}
+
+
+/*
+ * Called for every thread.
+ * Initializes newlib's reentrant structure for the given TCB.
+ */
+void ukarch_tls_tcb_init(void *tcb)
+{
+	struct _reent **reent = (struct _reent **)tcb;
+
+	uk_pr_info("ukarch_tls_tcb_init tcb %p\n", tcb);
+
+	UK_ASSERT(reent);
+
+	*reent = uk_memalign(
+	    uk_alloc_get_default(),
+	    __PAGE_SIZE,
+	    sizeof(struct _reent));
+
+	UK_ASSERT(*reent);
+
+	_REENT_INIT_PTR(*reent);
+
+#if 0
+	/* TODO initialize basic signal handling */
+	_init_signal_r(myreent);
+#endif
+}
