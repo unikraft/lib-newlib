@@ -1,8 +1,10 @@
-/* SPDX-License-Identifier: BSD-3-Clause */
+// SPDX-License-Identifier: BSD-3-Clause
 /*
- * Authors: Costin Lupu <costin.lupu@cs.pub.ro>
+ * FIXME: Placeholder stub fork.
  *
- * Copyright (c) 2019, University Politehnica of Bucharest. All rights reserved.
+ * Authors: Eduard Vintilă <eduard.vintila47@gmail.com>
+ *
+ * Copyright (c) 2022, University of Bucharest. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,26 +31,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+#include <errno.h>
 
-#ifndef __NEWLIB_GLUE_UK__TYPES_H__
-#define __NEWLIB_GLUE_UK__TYPES_H__
-
-/* Use Unikraft time definitions */
-#define __NEED_time_t
-#define __NEED_suseconds_t
-#define __NEED_struct_timeval
-#define __NEED_struct_timespec
-#define __NEED_timer_t
-#define __NEED_clockid_t
-#define __NEED_clock_t
-#include <time_types.h>
-
-/* newlib guards */
-#define __time_t_defined
-#define _SUSECONDS_T_DECLARED
-#define _TIMEVAL_DEFINED
-#define	__timer_t_defined
-#define __clockid_t_defined
-#define __clock_t_defined
-
-#endif /* __NEWLIB_GLUE_UK__TYPES_H__ */
+int fork(void)
+{
+	/* TODO: implement. */
+	errno = ENOSYS;
+	return -1;
+}

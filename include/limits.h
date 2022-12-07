@@ -51,7 +51,7 @@
 #define SHRT_MAX        0x7fff
 #define USHRT_MAX       0xffff
 
-#if defined(__x86_64__) || defined(__ARM_64__)
+#if defined(__x86_64__) || defined(__RISCV_64__) || defined(__ARM_64__)
 # define LONG_MAX       0x7fffffffffffffffL
 # define ULONG_MAX      0xffffffffffffffffUL
 #else
@@ -74,6 +74,9 @@
 
 #define PATH_MAX        1024
 #define NAME_MAX        255
+
+#define IOV_MAX 1024
+
 /* The maximum number of repeated occurrences of a regular expression
  * permitted when using the interval notation `\{M,N\}'.
  */

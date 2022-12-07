@@ -1,0 +1,28 @@
+From 508a48fb39041af878847f3a921c5a6b9d39d3c1 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Eduard=20Vintil=C4=83?= <eduard.vintila47@gmail.com>
+Date: Wed, 7 Dec 2022 13:58:04 +0200
+Subject: [PATCH] Add time.h
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Eduard Vintilă <eduard.vintila47@gmail.com>
+---
+ newlib/libc/include/sys/_pthreadtypes.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/newlib/libc/include/sys/_pthreadtypes.h b/newlib/libc/include/sys/_pthreadtypes.h
+index 75e9e1c..cd7bf60 100644
+--- a/newlib/libc/include/sys/_pthreadtypes.h
++++ b/newlib/libc/include/sys/_pthreadtypes.h
+@@ -21,6 +21,7 @@
+ #if defined(_POSIX_THREADS) || __POSIX_VISIBLE >= 199506
+ 
+ #include <sys/sched.h>
++#include <time.h>
+ 
+ /*
+  *  2.5 Primitive System Data Types,  P1003.1c/D10, p. 19.
+-- 
+2.38.1
+
