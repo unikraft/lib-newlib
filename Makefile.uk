@@ -146,13 +146,25 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/dev.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/link.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/mntent.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/syscall.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/fork.c
+ifeq ($(CONFIG_LIBPOSIX_SOCKET),y)
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/h_errno.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/inet.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/proto.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/getnameinfo.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/host.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/serv.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/htonl.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/htons.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/ntohl.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/ntohs.c
+endif
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/misc/syslog.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcsetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcgetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/math/sincosl.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/exit/assert.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/__uk_init_tls.c
-LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/fork.c
 
 ifeq ($(CONFIG_LIBNEWLIBC_CRYPT),y)
 LIBNEWLIBGLUE_CFLAGS-y   += -Wno-missing-braces -Wno-sign-compare -Wno-char-subscripts
