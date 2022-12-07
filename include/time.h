@@ -18,6 +18,7 @@ extern "C" {
 #define __NEED_pid_t
 #define __NEED_locale_t
 
+#include <newlib-internal/shareddefs.h>
 #include <sys/types.h>
 #include <xlocale.h>
 
