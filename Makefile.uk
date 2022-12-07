@@ -147,12 +147,16 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/link.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/mntent.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/syscall.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/h_errno.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/inet.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/fork.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/misc/syslog.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcsetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcgetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/math/sincosl.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/exit/assert.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/htonl.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/htons.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/ntohl.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/ntohs.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/__uk_init_tls.c
 

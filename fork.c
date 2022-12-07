@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * FIXME: Placeholder stubs for POSIX signal functions and fork.
+ * FIXME: Placeholder stub fork.
  *
  * Authors: Eduard Vintilă <eduard.vintila47@gmail.com>
  *
@@ -31,109 +31,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-#include <sys/types.h>
 #include <errno.h>
-
-typedef void (*sighandler_t)(int);
-
-sighandler_t signal(int signum, sighandler_t handler)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int sigprocmask(int how, const sigset_t *set, sigset_t *oset)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int pthread_sigmask(int how, const sigset_t *set, sigset_t *oset)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int raise(int sig)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int kill(pid_t a, int b)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-
-int killpg(pid_t a, int b)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int sigaction(int a, const struct sigaction *b, struct sigaction *c)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-
-int sigaddset(sigset_t *a, const int b)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-int sigdelset(sigset_t *a, const int b)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-int sigismember(const sigset_t *a, int b)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int sigfillset(sigset_t *a)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int sigemptyset(sigset_t *a)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int sigsuspend(const sigset_t *a)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
-
-int sigwait(const sigset_t *a, int b)
-{
-	/* TODO: implement. */
-	errno = ENOSYS;
-	return -1;
-}
 
 int fork(void)
 {

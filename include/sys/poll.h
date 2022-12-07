@@ -85,7 +85,7 @@ int poll(struct pollfd _pfd[], nfds_t _nfds, int _timeout);
 #define __NEED_time_t
 #define __NEED_struct_timespec
 #define __NEED_sigset_t
-#include <nolibc-internal/shareddefs.h>
+#include <newlib-internal/shareddefs.h>
 int ppoll(struct pollfd *fds, nfds_t nfds,
 	  const struct timespec *tmo_p, const sigset_t *sigmask);
 #endif
