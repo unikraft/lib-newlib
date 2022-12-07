@@ -36,11 +36,7 @@
 #include <uk/alloc.h>
 #include <uk/assert.h>
 #include <sys/reent.h>
-
-int uk_thread_uktcb_init(struct uk_thread *thread, void *tcb)
-{
-	/* We already initialize the TCB in ukarch_tls_tcb_init() */
-}
+#include <string.h>
 
 /* Needed by newlib. Retrieves the reentrant structure of the current thread.*/
 struct _reent *__getreent(void)
@@ -52,6 +48,12 @@ struct _reent *__getreent(void)
 		return *reent;
 
 	return _impure_ptr;
+}
+
+int uk_thread_uktcb_init(struct uk_thread *thread, void *tcb)
+{
+	/* We already initialize the TCB in ukarch_tls_tcb_init() */
+	return 0;
 }
 
 void uk_thread_uktcb_fini(struct uk_thread *thread, void *tcb)
@@ -85,6 +87,4 @@ void ukarch_tls_tcb_init(void *tcb)
 	/* TODO initialize basic signal handling */
 	_init_signal_r(myreent);
 #endif
-
-	return 0;
 }

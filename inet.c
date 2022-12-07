@@ -49,7 +49,19 @@ int getaddrinfo(const char *node, const char *service,
 		const struct addrinfo *hints,
 		struct addrinfo **res)
 {
-	return lwip_getaddrinfo(node, service, hints, res);
+	int rc;
+
+	rc = lwip_getaddrinfo(node, service, hints, res);
+	if (!rc) {
+		/* Set the precise size of sockaddr */
+		struct addrinfo *ai = *res;
+
+		ai->ai_addrlen = ai->ai_family == AF_INET
+				? sizeof(struct sockaddr_in)
+				: sizeof(struct sockaddr_in6);
+	}
+
+	return rc;
 }
 
 void freeaddrinfo(struct addrinfo *res)
