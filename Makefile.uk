@@ -164,6 +164,11 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcsetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/termios/tcgetattr.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/math/sincosl.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/exit/assert.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/time/__month_to_secs.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/time/__secs_to_tm.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/time/__tm_to_secs.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/time/__year_to_secs.c
+LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/time/timegm.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/__uk_init_tls.c
 
 ifeq ($(CONFIG_LIBNEWLIBC_CRYPT),y)
