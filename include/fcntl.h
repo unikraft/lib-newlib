@@ -6,6 +6,11 @@
 
 #include <uk/config.h>
 
+#define F_OK 0
+#define R_OK 4
+#define W_OK 2
+#define X_OK 1
+
 #if (defined CONFIG_ARCH_X86_64)
 #define O_NOFOLLOW  0400000
 #define O_DIRECTORY 0200000
