@@ -1,0 +1,5 @@
+name        := "newlib"
+description := "A simple ANSI C library, math library, and collection of board support packages."
+homepage    := "http://sourceware.org/newlib/"
+license     := "BSD-3.0-Clause"
+version     := 2.5.0.20170922 sha256:16ccacbb9155b89a8333da057bfd2952d334795a38dfffcef6a4d83ae12e7275 http://sourceware.org/pub/newlib/newlib-2.5.0.20170922.tar.gz
