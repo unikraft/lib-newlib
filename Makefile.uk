@@ -35,7 +35,9 @@
 # Please refer to ./arch/Makefile.rules for more details.
 # In our case, 16 bytes is sufficient to also cover for the minimum size required by ARM.
 ################################################################################
+ifeq ($(CONFIG_LIBNEWLIBC),y)
 $(eval $(call ukarch_tls_tcb_reserve,16))
+endif
 
 
 
