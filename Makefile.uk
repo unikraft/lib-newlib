@@ -112,13 +112,15 @@ LIBNEWLIB_SUPPRESS_FLAGS-y += \
 -Wno-unused-parameter -Wno-unused-variable -Wno-nonnull				\
 -Wno-unused-but-set-variable -Wno-unused-label 					\
 -Wno-unused-function -Wno-missing-field-initializers -Wno-uninitialized		\
--Wno-array-bounds -Wno-maybe-uninitialized -Wno-pointer-sign -Wno-unused-value	\
+-Wno-array-bounds -Wno-pointer-sign -Wno-unused-value				\
 -Wno-unused-macros -Wno-parentheses -Wno-implicit-function-declaration		\
 -Wno-missing-braces -Wno-endif-labels -Wno-unused-but-set-variable		\
 -Wno-type-limits -Wno-sign-compare
+LIBNEWLIB_SUPPRESS_FLAGS-$(call have_gcc) += -Wno-maybe-uninitialized
 LIBNEWLIB_SUPPRESS_FLAGS-$(call gcc_version_ge,6,0) += -Wno-misleading-indentation
 LIBNEWLIB_SUPPRESS_FLAGS-$(call gcc_version_ge,6,0) += -Wno-shift-negative-value
 LIBNEWLIB_SUPPRESS_FLAGS-$(call gcc_version_ge,7,0) += -Wno-implicit-fallthrough
+LIBNEWLIB_SUPPRESS_FLAGS-$(call have_clang) += -Wno-deprecated-non-prototype
 
 LIBNEWLIB_FLAGS			+= -ffreestanding
 LIBNEWLIB_NO_BUILTINS		+= -D__NO_SYSCALLS__ -fno-builtin
@@ -133,6 +135,7 @@ LIBNEWLIBGLUE_CFLAGS-y   += $(LIBNEWLIBGLUE_SUPPRESS_FLAGS-y) $(LIBNEWLIB_FLAGS)
 LIBNEWLIBGLUE_CXXFLAGS-y += $(LIBNEWLIBGLUE_SUPPRESS_FLAGS-y) $(LIBNEWLIB_FLAGS)
 
 LIBNEWLIB_GLOBAL_SUPPRESS_FLAGS-y += -Wno-char-subscripts
+LIBNEWLIB_GLOBAL_SUPPRESS_FLAGS-$(call have_clang) += -Wno-typedef-redefinition
 CFLAGS-$(CONFIG_LIBNEWLIBC)   += $(LIBNEWLIB_GLOBAL_SUPPRESS_FLAGS-y)
 CXXFLAGS-$(CONFIG_LIBNEWLIBC) += $(LIBNEWLIB_GLOBAL_SUPPRESS_FLAGS-y)
 
