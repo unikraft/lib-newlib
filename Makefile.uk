@@ -658,7 +658,9 @@ LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/dtoastub.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/environ.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/envlock.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/eprintf.c
+ifneq ($(CONFIG_LIBPOSIX_PROCESS),y)
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/exit.c
+endif
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/gdtoa-gethex.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/gdtoa-hexnan.c
 LIBNEWLIBC_SRCS-y += $(LIBNEWLIB_LIBC)/stdlib/getenv.c
