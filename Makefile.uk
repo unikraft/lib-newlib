@@ -155,11 +155,11 @@ LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/syscall.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/fork.c
 ifeq ($(CONFIG_LIBPOSIX_SOCKET),y)
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/h_errno.c
-LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/inet.c
-LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/proto.c
-LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/getnameinfo.c
-LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/host.c
-LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/lwip-compatible/serv.c
+LIBNEWLIBGLUE_SRCS-$(CONFIG_LIBNEWLIB) += $(LIBNEWLIBC_BASE)/lwip-compatible/inet.c
+LIBNEWLIBGLUE_SRCS-$(CONFIG_LIBNEWLIB) += $(LIBNEWLIBC_BASE)/lwip-compatible/proto.c
+LIBNEWLIBGLUE_SRCS-$(CONFIG_LIBNEWLIB) += $(LIBNEWLIBC_BASE)/lwip-compatible/getnameinfo.c
+LIBNEWLIBGLUE_SRCS-$(CONFIG_LIBNEWLIB) += $(LIBNEWLIBC_BASE)/lwip-compatible/host.c
+LIBNEWLIBGLUE_SRCS-$(CONFIG_LIBNEWLIB) += $(LIBNEWLIBC_BASE)/lwip-compatible/serv.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/htonl.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/htons.c
 LIBNEWLIBGLUE_SRCS-y += $(LIBNEWLIBC_BASE)/musl-imported/src/network/ntohl.c
