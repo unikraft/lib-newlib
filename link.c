@@ -33,11 +33,44 @@
 #include <uk/essentials.h>
 #include <stddef.h>
 #include <link.h>
+#include <elf.h>
+
+#include <stdlib.h>
+
+#ifdef DRUNTIME
+struct DG {
+    void * addr;
+    struct dl_phdr_info* result;
+};
+
+extern char __bss_start[];
+extern char _end[];
+#endif
 
 int dl_iterate_phdr(
 		int (*callback)(struct dl_phdr_info *info,
 				size_t size, void *data),
 		void *data)
 {
-	return 0;
+#ifdef DRUNTIME
+    struct DG* temp = (struct DG *)data;
+
+    temp->result->dlpi_addr = (ElfW(Addr))__bss_start;
+    temp->result->dlpi_phnum = 1;
+    temp->result->dlpi_adds  = 0;
+	temp->result->dlpi_subs  = 0;
+	temp->result->dlpi_name = "";
+
+    ElfW(Phdr) *segment_data = (ElfW(Phdr) *)malloc(sizeof(ElfW(Phdr)));
+    segment_data->p_type = PT_LOAD;
+    segment_data->p_flags = PF_W;
+    segment_data->p_vaddr = 0;
+    segment_data->p_memsz = _end - __bss_start;
+
+    temp->result->dlpi_phdr = segment_data;
+
+    return 1;
+#else
+    return 0;
+#endif
 }
